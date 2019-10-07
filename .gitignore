@@ -1,3 +1,10 @@
+# visualstudio
+ProjectMilk/.vs/
+ProjectMilk/Library/
+ProjectMilk/*.sln
+ProjectMilk/*.csproj
+ProjectMilk/Temp
+
 # Prerequisites
 *.d
 
