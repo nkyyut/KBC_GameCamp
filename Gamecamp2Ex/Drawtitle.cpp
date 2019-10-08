@@ -1,6 +1,7 @@
-#include "Gamecamp.h"
+#include "Source.h"
+#include "DrawTitle.h"
 
-void DrawTitle()
+void DrawTitle() 
 {
 
 	SetFontSize( _FONTSIZE_S );

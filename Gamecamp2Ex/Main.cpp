@@ -1,84 +1,5 @@
-#include "DxLib.h"
-#include "Gamecamp.h"
-#include "Drawtitle.h"
-
-static int GAMESTATE;
-
-//フレームレート系変数
-static int RefreshRate;
-
-//フレームレート定数( 60 )
-//#define	_FRAMERATE_60	60
-//#define _FRAMERATE_144	144
-//
-//#define _SCREENSIZE_X	800
-//#define _SCREENSIZE_Y	600
-//
-//#define _FONTSIZE_S		12
-
-/*****      ゲームモード列挙体      *****/
-//typedef enum GAME_MODE
-//{
-//	GAME_TITLE,			//タイトル
-//	GAME_HELP,			//ヘルプ
-//	GAME_LEVEL,			//難易度
-//	GAME_INIT,			//初期化
-//	GAME_MAIN,			//メイン
-//	GAME_WIN,			//勝利画面
-//	GAME_LOSE,			//敗北者画面
-//	GAME_END,			//エンド処理
-//	GAME_INPUTRANKING,	//ランキング入り画面
-//	GAME_RANKING,		//ランキング画面
-//	END = 99			//エンド
-//};
-
-/*****      キー操作構造体      *****/
-//typedef struct OPERATE
-//{
-//	KeyInput
-//	int OldK;
-//	int NowK;
-//	int Kflg;
-//} OPERATE;
-//
-//extern OPERATE opt;
-//
-///*****      画像構造体      *****/
-//typedef struct PICTURE
-//{
-//	int Picture;
-//};
-//PICTURE Pic;	//画像構造体宣言
-//
-///*****      画像構造体      *****/
-//typedef struct SOUND
-//{
-//	int Sound;
-//};
-//SOUND Sound;		//音楽構造体宣言
-//
-//typedef struct HITBOX
-//{
-//	int click1;
-//	int click2;
-//};
-//
-//HITBOX	hitbox = { 0, 0 };
-//
-//typedef struct PLAYER
-//{
-//	int playerX;
-//	int playerY;
-//	int playerLife;
-//};
-//PLAYER player = { 0, 0, 2 };
-//
-//typedef struct ENEMY
-//{
-//	int enemyX;
-//	int enemyY;
-//};
-//ENEMY enemy = { 0, 0 };
+#include "Source.h"
+#include "DrawTitle.h"
 
 /*****      フレームレート構造体      *****/
 typedef struct FRAMERATE_CONTROL
@@ -90,32 +11,31 @@ typedef struct FRAMERATE_CONTROL
 };
 FRAMERATE_CONTROL FR_Control = { 0, 0, 0.0, 0 };	//フレームレート制御構造体宣言
 
-//関数宣言
+struct OPERATE opt;
 
+int GAMESTATE;
+
+static int RefreshRate = 0;
+
+//関数宣言
 //フレームレート制御関数
 static bool FR_Update();
 static void FR_Draw();
 static void FR_Wait();
 
-//void DrawTitle();
 void GameInit();
 void GameMain();
 
 void DrawStage();
-void DrawPlayer();
-void DrawEnemy();
-void DrawUI();
-
-void DrawWin();
-void DrawLose();
-
-void DrawWall();
 
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
 
 	GAMESTATE = GAME_TITLE;
-	SetMainWindowText( "X" );
+
+	ChangeWindowMode( TRUE );
+	SetGraphMode( 640, 480, 32 );
+	SetDrawScreen( DX_SCREEN_BACK );
 
 	if( DxLib_Init() == -1 )	return -1;
 
@@ -128,40 +48,32 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
 		switch( GAMESTATE )
 		{
-
 			case GAME_TITLE:
 				DrawTitle();
 				break;
-			case GAME_HELP:
-				break;
+
 			case GAME_INIT:
 				GameInit();
 				break;
+
 			case GAME_MAIN:
 				GameMain();
 				break;
-			case GAME_WIN:
-				
-				break;
-			case GAME_LOSE:
-				break;
+
 			case GAME_END:
 				break;
-
 		}
 
 		FR_Update();
-#ifdef _DEBUGMODE
 		FR_Draw();
-#endif
-		ScreenFlip();
-		FR_Wait();
 
+		ScreenFlip();
+
+		FR_Wait();
 	}
 
 	DxLib_End();
 	return 0;
-
 }
 
 /******　　　　　　　フレーム数制御関数         ******/
@@ -211,40 +123,5 @@ void GameInit()
 
 void GameMain()
 {
-	
-}
-
-void DrawStage()
-{
-
-}
-
-void DrawPlayer()
-{
-
-}
-
-void DrawEnemy()
-{
-
-}
-
-void DrawUI()
-{
-
-}
-
-void DrawWall()
-{
-
-}
-
-void DrawWin()
-{
-
-}
-
-void DrawLose()
-{
-
+	DrawStage();
 }
