@@ -4,3 +4,4 @@
 #include "DrawStage.h"
 #include "DrawTitle.h"
 #include "DrawUI.h"
+#include "DrawEnemy.h"

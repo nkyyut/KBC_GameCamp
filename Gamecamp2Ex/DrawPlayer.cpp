@@ -1,5 +1,5 @@
 // DrawPlayerクラスの実装
-#include "Gamecamp.h"
+#include "Source.h"
 
 
 // 壁に当たるとデンジャータイムが発生
@@ -8,9 +8,9 @@ void DrawPlayer()
 	int playerX = 400;
 	int playerY = 300;
 	int playerLife;
-	 
+
 	int player;
-	
+}
 
 
 

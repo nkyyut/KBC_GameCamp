@@ -129,6 +129,7 @@ void GameMain()
 	DrawStage();
 	DrawUI();
 	DrawWall();
+	DrawEnemy();
 
 	if( MouseState() == 1 )
 	{
