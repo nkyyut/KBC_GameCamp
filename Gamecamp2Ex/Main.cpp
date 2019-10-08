@@ -13,8 +13,10 @@ typedef struct FRAMERATE_CONTROL
 FRAMERATE_CONTROL FR_Control = { 0, 0, 0.0, 0 };	//フレームレート制御構造体宣言
 
 struct OPERATE opt;
+//struct PICTURE pic;
 
 Wall *pwall;
+MousePoint mPoint;
 
 int GAMESTATE;
 
@@ -29,7 +31,7 @@ static void FR_Wait();
 void GameInit();
 void GameMain();
 
-int MouseState();
+//int MouseState();
 
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
@@ -37,7 +39,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	GAMESTATE = GAME_TITLE;
 
 	ChangeWindowMode( TRUE );
-	SetGraphMode( 1024, 768, 32 );
+	SetGraphMode( _SCREENSIZE_X, _SCREENSIZE_Y, 32 );
 	SetDrawScreen( DX_SCREEN_BACK );
 
 	if( DxLib_Init() == -1 )	return -1;
@@ -126,27 +128,27 @@ void GameInit()
 
 void GameMain()
 {
+	
+	//mPoint.PrintMouseClick();
 	DrawStage();
 	DrawUI();
 	DrawWall();
-
-	if( MouseState() == 1 )
-	{
-		DrawCircle( 400, 400, 5, 0xffffff, TRUE );
-	}
+	mPoint.GetMouseClick();
 }
 
-int MouseState()
-{
-	int Mouse = GetMouseInput();
-	if( Mouse & MOUSE_INPUT_LEFT )
-	{
-		//左クリック
-		return 1;
-	}
-
-	return 0;
-}
+//int MouseState()
+//{
+//	int beforemouseInput = 0;
+//	int nowmouseInput = GetMouseInput();
+//
+//	if( beforemouseInput & MOUSE_INPUT_LEFT ) 
+//	{
+//		//左クリック
+//		return 1;
+//	}
+//
+//	return 0;
+//}
 
 void DrawWall()
 {

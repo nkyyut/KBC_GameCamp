@@ -11,6 +11,9 @@
 #define	_FRAMERATE_60	60
 #define _FRAMERATE_144	144
 
+#define _SCREENSIZE_X	1024
+#define _SCREENSIZE_Y	768
+
 extern int GAMESTATE;
 
 /*****      ÉQÅ[ÉÄÉÇÅ[ÉhóÒãìëÃ      *****/
@@ -37,3 +40,9 @@ struct OPERATE
 	int Kflg;
 };
 extern struct OPERATE opt;
+
+struct PICTRUE
+{
+	int Gage;
+};
+extern struct PICTURE pic;
