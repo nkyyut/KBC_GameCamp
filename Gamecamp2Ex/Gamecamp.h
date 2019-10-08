@@ -3,8 +3,6 @@
 
 #include "DxLib.h"
 
-//#include "Drawtitle.h"
-
 //フレームレート定数(触るな)
 #define	_FRAMERATE_60	60
 #define _FRAMERATE_144	144
@@ -35,29 +33,25 @@ typedef enum GAME_MODE
 	END = 99			//エンド
 };
 
-typedef struct OPERATE
+struct OPERATE
 {
 	//KeyInput
 	int OldK;
 	int NowK;
 	int Kflg;
 } OPERATE;
-
-extern OPERATE opt;
-
+extern struct OPERATE opt;
 /*****      画像構造体      *****/
 typedef struct PICTURE
 {
 	int Picture;
 };
-PICTURE Pic;	//画像構造体宣言
 
 /*****      画像構造体      *****/
 typedef struct SOUND
 {
 	int Sound;
-};
-SOUND Sound;		//音楽構造体宣言
+};	//音楽構造体宣言
 
 typedef struct HITBOX
 {
@@ -65,21 +59,17 @@ typedef struct HITBOX
 	int click2;
 };
 
-HITBOX	hitbox = { 0, 0 };
-
 typedef struct PLAYER
 {
 	int playerX;
 	int playerY;
 	int playerLife;
 };
-PLAYER player = { 0, 0, 2 };
 
 typedef struct ENEMY
 {
 	int enemyX;
 	int enemyY;
 };
-ENEMY enemy = { 0, 0 };
 
 #endif

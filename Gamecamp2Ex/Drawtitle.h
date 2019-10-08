@@ -1,8 +1,8 @@
 #ifndef _DRAWTITLE_H_
 #define _DRAWTITLE_H_
 
-#include "DxLib.h"
+#include "Gamecamp.h"
 
-void DrawTitle();
+extern void DrawTitle();
 
 #endif

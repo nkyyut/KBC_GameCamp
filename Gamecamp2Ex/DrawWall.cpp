@@ -1,4 +1,4 @@
-#include "Gamecamp.h"
+#include "DrawWall.h"
 
 void DrawWall()
 {

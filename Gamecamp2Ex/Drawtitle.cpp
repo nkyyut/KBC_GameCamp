@@ -1,5 +1,6 @@
-#include "Gamecamp.h"
+#include "Drawtitle.h"
 
+struct OPERATE opt;
 void DrawTitle()
 {
 
