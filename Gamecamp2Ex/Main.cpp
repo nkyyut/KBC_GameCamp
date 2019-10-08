@@ -1,18 +1,5 @@
-//#include "DxLib.h"
-//
-//#include "Drawtitle.h"
-//#include "DrawWall.h"
-//#include "DrawEnemy.h"
-//#include "DrawPlayer.h"
-//#include "DrawStage.h"
-//#include "DrawUI.h"
-//#include "DrawWin.h"
-//#include "DrawLose.h"
-
-#include "Main.h"
-
-//フレームレート系変数
-static int RefreshRate;
+#include "Source.h"
+#include "DrawTitle.h"
 
 /*****      フレームレート構造体      *****/
 typedef struct FRAMERATE_CONTROL
@@ -25,14 +12,12 @@ typedef struct FRAMERATE_CONTROL
 FRAMERATE_CONTROL FR_Control = { 0, 0, 0.0, 0 };	//フレームレート制御構造体宣言
 
 struct OPERATE opt;
-PICTURE Pic;	//画像構造体宣言
-SOUND Sound;
-HITBOX	hitbox = { 0, 0 };
-PLAYER player = { 0, 0, 2 };
-ENEMY enemy = { 0, 0 };
+
+int GAMESTATE;
+
+static int RefreshRate = 0;
 
 //関数宣言
-
 //フレームレート制御関数
 static bool FR_Update();
 static void FR_Draw();
@@ -41,13 +26,16 @@ static void FR_Wait();
 void GameInit();
 void GameMain();
 
+void DrawStage();
+
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
 
 	GAMESTATE = GAME_TITLE;
-	SetMainWindowText( "X" );
+
 	ChangeWindowMode( TRUE );
-	SetWindowSize( 1280, 800 );
+	SetGraphMode( 640, 480, 32 );
+	SetDrawScreen( DX_SCREEN_BACK );
 
 	if( DxLib_Init() == -1 )	return -1;
 
@@ -60,12 +48,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
 		switch( GAMESTATE )
 		{
-
 			case GAME_TITLE:
 				DrawTitle();
-				break;
-
-			case GAME_HELP:
 				break;
 
 			case GAME_INIT:
@@ -76,31 +60,20 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 				GameMain();
 				break;
 
-			case GAME_WIN:
-				DrawWin();
-				break;
-
-			case GAME_LOSE:
-				DrawLose();
-				break;
-
 			case GAME_END:
 				break;
-
 		}
 
 		FR_Update();
-#ifdef _DEBUGMODE
 		FR_Draw();
-#endif
-		ScreenFlip();
-		FR_Wait();
 
+		ScreenFlip();
+
+		FR_Wait();
 	}
 
 	DxLib_End();
 	return 0;
-
 }
 
 /******　　　　　　　フレーム数制御関数         ******/
@@ -150,13 +123,5 @@ void GameInit()
 
 void GameMain()
 {
-
 	DrawStage();
-	DrawWall();
-
-	DrawPlayer();
-	DrawEnemy();
-
-	DrawUI();
-
 }

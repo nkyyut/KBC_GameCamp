@@ -1,9 +1,3 @@
-#ifndef _DRAWSTAGE_H_
-#define _DRAWSTAGE_H_
+#pragma once
 
-//#include "DxLib.h"
-//#include "Gamecamp.h"
-
-void DrawStage();
-
-#endif
+extern void DrawStage();

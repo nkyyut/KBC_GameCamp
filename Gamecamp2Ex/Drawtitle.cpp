@@ -1,7 +1,7 @@
-#include "Drawtitle.h"
+#include "Source.h"
+#include "DrawTitle.h"
 
-struct OPERATE opt;
-void DrawTitle()
+void DrawTitle() 
 {
 
 	SetFontSize( _FONTSIZE_S );
