@@ -1,5 +1,7 @@
 #include "Source.h"
 #include "DrawTitle.h"
+#include "MousePoint.h"
+
 
 /*****      フレームレート構造体      *****/
 typedef struct FRAMERATE_CONTROL
@@ -16,6 +18,8 @@ struct OPERATE opt;
 int GAMESTATE;
 
 static int RefreshRate = 0;
+
+
 
 //関数宣言
 //フレームレート制御関数
@@ -124,4 +128,5 @@ void GameInit()
 void GameMain()
 {
 	DrawStage();
+
 }
