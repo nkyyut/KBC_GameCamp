@@ -4,6 +4,11 @@ Library
 *.sln
 *.csproj
 Temp
+Debug
+*.vcxproj
+*.filters
+*.user
+*.txt
 
 # Prerequisites
 *.d
