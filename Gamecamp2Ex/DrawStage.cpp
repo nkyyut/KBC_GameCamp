@@ -1,5 +1,4 @@
 #include "Source.h"
-#include "Source.h"
 
 void DrawStage()
 {

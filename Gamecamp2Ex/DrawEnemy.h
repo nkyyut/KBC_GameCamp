@@ -4,7 +4,9 @@
 #include "DxLib.h"
 
 extern void DrawEnemy();
-extern void EnemyControl();
 extern void BackScrool();
+
+int ScroolSpeed;
+int BackScreen;
 
 #endif
