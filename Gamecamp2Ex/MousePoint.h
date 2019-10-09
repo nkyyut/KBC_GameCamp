@@ -17,6 +17,7 @@ class MousePoint
 		int dmpX;
 		int dmpY;
 		int clickFlg;
+		int wallFlg;
 
 	private :
 		int OldMouseInput;
