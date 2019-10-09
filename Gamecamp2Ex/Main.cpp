@@ -133,7 +133,14 @@ void GameMain()
 	DrawStage();
 	DrawUI();
 	DrawWall();
-	mPoint.GetMouseClick();
+	if( mPoint.killFlg == FALSE )
+	{
+		mPoint.GetMouseClick( pwall );
+	}
+
+	DrawFormatString( 700, 130, 0x000000, "%d, %d", mPoint.bmpX, mPoint.bmpY );
+	DrawFormatString( 700, 160, 0x000000, "%d, %d", mPoint.mpX, mPoint.mpY );
+	DrawFormatString( 700, 190, 0x000000, "%d", mPoint.clickFlg );
 }
 
 //int MouseState()
@@ -171,7 +178,24 @@ void DrawWall()
 		if( pwall->ScreenOut() == 1 )
 		{
 			delete pwall;
+			mPoint.bmpX = 0;
+			mPoint.bmpY = 0;
+			mPoint.mpX = 0;
+			mPoint.mpY = 0;
+			mPoint.clickFlg = 0;
 			i = 0;
+		}
+
+		if( mPoint.killFlg == TRUE )
+		{
+			delete pwall;
+			mPoint.bmpX = 0;
+			mPoint.bmpY = 0;
+			mPoint.mpX = 0;
+			mPoint.mpY = 0;
+			mPoint.clickFlg = 0;
+			i = 0;
+			mPoint.killFlg = FALSE;
 		}
 	}
 }

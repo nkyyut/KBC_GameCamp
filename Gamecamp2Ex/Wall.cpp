@@ -13,7 +13,7 @@ Wall::Wall()
 	mhitHeight = 200;
 
 	hitFenceX = 200;
-	hitFenceY = 20;
+	hitFenceY = 60;
 }
 
 Wall::~Wall()
@@ -75,21 +75,31 @@ void Wall::HitmouseRange()
 	}
 }
 
-void Wall::BreakWall( const MousePoint mPoint )
-{
-	if( mPoint.killFlg == TRUE )
-	{
-		if( mPoint.bmpX > ( x - mhitWidth / 2 ) && mPoint.bmpY > ( y - mhitHeight / 2 ) )
-		{
-			if( mPoint.mpX < ( x + mhitWidth / 2 ) && mPoint.mpY < ( y + mhitHeight / 2 ) )
-			{
-
-				if( mPoint.mpX > ( x - mhitWidth / 2 ) && mPoint.mpY > ( y - mhitHeight / 2 ) )
-				{
-					DrawFormatString( 900, 100, 0x000000, "ƒNƒŠƒbƒN”ÍˆÍ“à" );
-				}
-
-			}
-		}
-	}
-}
+//int Wall::BreakWall( MousePoint mPoint )
+//{
+//
+//	if( mPoint.bmpX > ( x - mhitWidth / 2 ) && mPoint.bmpY > ( y - mhitHeight / 2 ) )
+//	{
+//		if( mPoint.bmpX < ( x + mhitWidth / 2 ) && mPoint.bmpY < ( y + mhitHeight / 2 ) )
+//		{
+//			if( mPoint.mpX > ( x - mhitWidth / 2 ) && mPoint.mpY > ( y - mhitHeight / 2 ) )
+//			{
+//				if( mPoint.mpX < ( x + mhitWidth / 2 ) && mPoint.mpY < ( y + mhitHeight / 2 ) )
+//				{
+//
+//				}
+//			}
+//			if( mPoint.mpX > ( x - hitFenceX / 2 ) && mPoint.mpY > ( y - hitFenceY / 2 ) )
+//			{
+//				if( mPoint.mpX < ( x + hitFenceX / 2 ) && mPoint.mpY < ( y + hitFenceY / 2 ) )
+//				{
+//					return 1;
+//				}
+//			}
+//
+//		}
+//	}
+//
+//	return 0;
+//
+//}

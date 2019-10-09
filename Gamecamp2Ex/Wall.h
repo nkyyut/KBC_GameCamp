@@ -9,14 +9,14 @@ class Wall
 		~Wall();
 		void MoveWall();
 		void WallDraw();
-		void BreakWall( const MousePoint mPoint );
+//		int BreakWall( MousePoint *mPoint );
 		int ScreenOut();
 		
 		void HitmouseRange();
 
 		int WallState;	//柵とか石の壁作るんだったら必要かなと
 
-	private :
+	//private :
 		int x;				//迫りくる壁中心点X
 		int y;				//迫りくる壁中心点Y
 		int moveSpeed;		//壁の動く速度

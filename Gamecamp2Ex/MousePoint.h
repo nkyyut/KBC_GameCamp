@@ -1,14 +1,22 @@
 #pragma once
 
+#include "Wall.h"
+
 class MousePoint
 {
 	public :
 		MousePoint();
-		void GetMouseClick();
+		void GetMouseClick( const Wall *pwall );
 		void PrintMouseClick();
-		bool killFlg = 0;
-		int bmpX, bmpY;
-		int mpX, mpY;
+		//int HitMouseClick( Wall *pwall );
+		bool killFlg;
+		int bmpX;
+		int bmpY;
+		int mpX;
+		int mpY;
+		int dmpX;
+		int dmpY;
+		int clickFlg;
 
 	private :
 		int OldMouseInput;
