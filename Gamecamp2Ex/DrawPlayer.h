@@ -2,6 +2,7 @@
 #define _DRAWPLAYER_H_
 
 #include "DxLib.h"
+#include "Wall.h"
 
 
 class Player {
@@ -11,10 +12,10 @@ private:
 	int playerY;
 	int playerLife;
 	int playerHit;
-
+	int WaitTimer = 0;
 public:
 	void DrawPlayer();
-	void Danger();
+	void DangerTime( Wall *pwall );
 	Player();
 
 
