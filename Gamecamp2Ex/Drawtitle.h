@@ -1,3 +1,12 @@
 #pragma once
 
-void DrawTitle();
+class  TitleScene
+{
+public:
+	 TitleScene();
+	~ TitleScene();
+	void DrawTitle();	
+	int image;
+private:
+
+};
