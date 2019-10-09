@@ -1,16 +1,11 @@
 #include "Source.h"
 #include "DrawEnemy.h"
-#include "Wall.h"
+//#include "Wall.h"
 
 
 void DrawEnemy()
 {
-	
-}
-
-void EnemyControl()
-{
-	
+		
 }
 
 void BackScrool()
@@ -29,3 +24,4 @@ void BackScrool()
 	//ƒGƒŠƒA‚ð–ß‚·
 	SetDrawArea(0, 0, 1024, 768);
 }
+

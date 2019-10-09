@@ -4,6 +4,7 @@
 #include "Source.h"
 #include "MousePoint.h"
 #include "Wall.h"
+#include "DxLib.h"
 //>>>>>>> origin/master
 
 MousePoint::MousePoint()
