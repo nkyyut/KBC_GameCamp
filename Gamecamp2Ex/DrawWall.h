@@ -4,6 +4,5 @@
 #include "DxLib.h"
 
 void DrawWall();
-int kabe;
 
 #endif
