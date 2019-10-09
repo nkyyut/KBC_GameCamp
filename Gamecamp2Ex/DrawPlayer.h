@@ -3,10 +3,24 @@
 
 #include "DxLib.h"
 
-void DrawPlayer();
+
+class Player {
+private:
+
 	int playerX;
 	int playerY;
 	int playerLife;
+	int playerHit;
+
+public:
+	void DrawPlayer();
+	void Danger();
+	Player();
+
+
+
+};
+	
 	
 
 //PLAYER player = { 0, 0, 2 };

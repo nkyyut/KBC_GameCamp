@@ -1,15 +1,24 @@
 // DrawPlayerクラスの実装
 #include "Source.h"
 
+#include "DrawPlayer.h"
+
+Player::Player()
+{
+	int playerX = 350;
+	int playerY = 568;
+	int playerLife = 2;
+	int playerHit;
+}
+
+
 
 // 壁に当たるとデンジャータイムが発生
-void DrawPlayer()
+void Player::DrawPlayer()
 {
-	int playerX = 400;
-	int playerY = 300;
-	int playerLife;
+	DrawBox(playerX, playerY, 450, 368, 0xfffff, TRUE);
 
-	int player;
+
 }
 
 
