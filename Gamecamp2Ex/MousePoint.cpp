@@ -1,4 +1,4 @@
-#include"MousePoint.h"
+#include "MousePoint.h"
 
 MousePoint::MousePoint(){
 	beforeMouseInput = 0;	//1フレーム前のマウスの状態（クリックされたかされてないか)を保存
