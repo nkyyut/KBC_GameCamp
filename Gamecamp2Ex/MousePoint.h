@@ -8,6 +8,7 @@ class MousePoint
 		MousePoint();
 		void GetMouseClick( const Wall *pwall );
 		void PrintMouseClick();
+		bool CompCoor( int fC, int lC );
 		//int HitMouseClick( Wall *pwall );
 		bool killFlg;
 		int bmpX;

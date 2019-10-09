@@ -58,9 +58,6 @@ void MousePoint::GetMouseClick( const Wall *pwall )
 	if( clickFlg == 1 && ( ( ( OldMouseInput & MOUSE_INPUT_LEFT ) == MOUSE_INPUT_LEFT ) ) 
 		&& ( ( NowMouseInput & MOUSE_INPUT_LEFT ) != MOUSE_INPUT_LEFT ) )
 	{
-		
-
-
 	}
 
 	//Žw‚ð—£‚µ‚½Žž
@@ -72,6 +69,17 @@ void MousePoint::GetMouseClick( const Wall *pwall )
 		killFlg = TRUE;
 
 		DrawFormatString( 700, 100, 0xff0000, "œ" );
+
+		if( mpX > ( pwall->x - pwall->hitFenceX / 2 ) && mpY > ( pwall->y - pwall->hitFenceY / 2 ) )
+		{
+			if( mpX < ( pwall->x + pwall->hitFenceX / 2 ) && mpY < ( pwall->y + pwall->hitFenceY / 2 ) )
+			{
+				DrawFormatString( 700, 100, 0xff0000, "œ" );
+				killFlg = FALSE;
+			}
+		}
+
+
 		//if( mpX > ( pwall->x - pwall->mhitWidth / 2 ) && mpY > ( pwall->y - pwall->mhitHeight / 2 ) )
 		//{
 		//	if( mpX < ( pwall->x + pwall->mhitWidth / 2 ) && mpY < ( pwall->y + pwall->mhitHeight / 2 ) )
@@ -114,6 +122,16 @@ void MousePoint::GetMouseClick( const Wall *pwall )
 void MousePoint::PrintMouseClick()
 {
 	DrawFormatString( 700, 100, 0xffffff, "%d,%d,%d,%d", bmpX, bmpY, mpX, mpY );
+}
+
+bool MousePoint::CompCoor( int fC, int lC )
+{
+	if( fC > lC )
+	{
+		return true;
+	}
+
+	return false;
 }
 
 //int MousePoint::HitMouseClick( Wall *pwall )

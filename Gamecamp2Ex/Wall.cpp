@@ -9,10 +9,10 @@ Wall::Wall()
 	y = -10;
 	moveSpeed = 5;
 
-	mhitWidth = 250;
+	mhitWidth = 700;
 	mhitHeight = 200;
 
-	hitFenceX = 200;
+	hitFenceX = 700;
 	hitFenceY = 60;
 }
 
@@ -73,6 +73,68 @@ void Wall::HitmouseRange()
 			}
 		}
 	}
+}
+
+bool Wall::LineAndLine( int A1x, int A1y, int A2x, int A2y, int B1x, int B1y, int B2x, int B2y )
+{
+	{
+		const int baseX = B2x - B1x;
+		const int baseY = B2y - B1y;
+		const int sub1X = A1x - B1x;
+		const int sub1Y = A1y - B1y;
+		const int sub2X = A2x - B1x;
+		const int sub2Y = A2y - B1y;
+
+		const int bs1 = baseX * sub1Y - baseY * sub1X;
+		const int bs2 = baseX * sub2Y - baseY * sub2X;
+		const int re = bs1 * bs2;
+
+		if( re > 0 )
+		{
+			return false;
+		}
+	}
+
+	{
+		const int baseX = A2x - A1x;
+		const int baseY = A2y - A1y;
+		const int sub1X = B1x - A1x;
+		const int sub1Y = B1y - A1y;
+		const int sub2X = B2x - A1x;
+		const int sub2Y = B2y - A1y;
+
+		const int bs1 = baseX * sub1Y - baseY * sub1Y;
+		const int bs2 = baseX * sub2Y - baseY * sub2X;
+		const int re = bs1 * bs2;
+
+		if( re > 0 )
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool Wall::RectAndLine( int right, int left, int top, int bottom, int x1, int y1, int x2, int y2 )
+{
+	if( LineAndLine( left, top, right, top, x1, y1, x2, y2 ) )
+	{
+		return true;
+	}
+	if( LineAndLine( right, top, right, bottom, x1, y1, x2, y2 ) )
+	{
+		return true;
+	}
+	if( LineAndLine( right, bottom, left, bottom, x1, y1, x2, y2 ) )
+	{
+		return true;
+	}
+	if( LineAndLine( left, bottom, left, top, x1, y1, x2, y2 ) )
+	{
+		return true;
+	}
+	return false;
 }
 
 //int Wall::BreakWall( MousePoint mPoint )

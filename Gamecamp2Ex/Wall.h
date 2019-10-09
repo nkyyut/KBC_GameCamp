@@ -13,6 +13,8 @@ class Wall
 		int ScreenOut();
 		
 		void HitmouseRange();
+		bool LineAndLine( int A1x, int A1y, int A2x, int A2y, int B1x, int B1y, int B2x, int B2y );
+		bool RectAndLine( int right, int left, int top, int bottom, int x1, int y1, int x2, int y2 );
 
 		int WallState;	//ò‚Æ‚©Î‚Ì•Çì‚é‚ñ‚¾‚Á‚½‚ç•K—v‚©‚È‚Æ
 
