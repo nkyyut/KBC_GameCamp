@@ -1,14 +1,14 @@
 #include "Source.h"
 #include "DrawEnemy.h"
-//#include "Wall.h"
+#include "DxLib.h"
 
 
-void DrawEnemy()
+void Enemy::DrawEnemy()
 {
 		
 }
 
-void BackScrool()
+void Enemy::BackScrool()
 {
 	ScroolSpeed +=4;
 
