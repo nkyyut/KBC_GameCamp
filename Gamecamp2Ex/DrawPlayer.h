@@ -3,20 +3,21 @@
 
 #include "DxLib.h"
 #include "Wall.h"
+#include "DrawEnemy.h"
 
 
 class Player {
-private:
+public:
 
 	int playerX;
 	int playerY;
-	int playerLife;
-	int playerHit;
+	int playerFlg;
 	int WaitTimer = 0;
-public:
 	void DrawPlayer();
-	void DangerTime( Wall *pwall );
+	void HitPlayer( Wall *pwall );
+	void DangerTime(Enemy* enemy, Wall *pwall );
 	Player();
+	int playerLife;
 
 
 
