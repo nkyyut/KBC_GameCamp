@@ -55,51 +55,56 @@ void MousePoint::GetMouseClick( const Wall *pwall )
 	}
 
 	//ドラッグしてる時に
-	//if( clickFlg == 1 && ( ( OldMouseInput & MOUSE_INPUT_LEFT ) == MOUSE_INPUT_LEFT ) )
-	//{
-	//	GetMousePoint( &dmpX, &dmpY );
+	if( clickFlg == 1 && ( ( ( OldMouseInput & MOUSE_INPUT_LEFT ) == MOUSE_INPUT_LEFT ) ) 
+		&& ( ( NowMouseInput & MOUSE_INPUT_LEFT ) != MOUSE_INPUT_LEFT ) )
+	{
+		
 
-	//	
-	//}
+
+	}
 
 	//指を離した時
 	if( clickFlg == 1 && ( ( ( OldMouseInput & MOUSE_INPUT_LEFT ) == MOUSE_INPUT_LEFT )
 		&& ( ( NowMouseInput & MOUSE_INPUT_LEFT ) != MOUSE_INPUT_LEFT ) ) )
 	{
 		GetMousePoint( &mpX, &mpY );                        //クリックしたときの座標を格納
-		if( mpX > ( pwall->x - pwall->mhitWidth / 2 ) && mpY > ( pwall->y - pwall->mhitHeight / 2 ) )
-		{
-			if( mpX < ( pwall->x + pwall->mhitWidth / 2 ) && mpY < ( pwall->y + pwall->mhitHeight / 2 ) )
-			{
-				killFlg = TRUE;
-				DrawFormatString( 700, 100, 0x0000ff, "●" );
-				if( mpX > ( pwall->x - pwall->hitFenceX / 2 ) && mpY > ( pwall->y - pwall->hitFenceY / 2 ) )
-				{
-					if( mpX < ( pwall->x + pwall->hitFenceX / 2 ) && mpY < ( pwall->y + pwall->hitFenceY / 2 ) )
-					{
-						DrawFormatString( 700, 100, 0xff0000, "●" );
-						killFlg = FALSE;
-						clickFlg = 0;
-					}
-				}
-			}
-			else
-			{
-				clickFlg = 0;
-				bmpX = 0;
-				bmpY = 0;
-				mpX = 0;
-				mpY = 0;
-			}
-		}
-		else
-		{
-			clickFlg = 0;
-			bmpX = 0;
-			bmpY = 0;
-			mpX = 0;
-			mpY = 0;
-		}
+		clickFlg = 0;
+		killFlg = TRUE;
+
+		DrawFormatString( 700, 100, 0xff0000, "●" );
+		//if( mpX > ( pwall->x - pwall->mhitWidth / 2 ) && mpY > ( pwall->y - pwall->mhitHeight / 2 ) )
+		//{
+		//	if( mpX < ( pwall->x + pwall->mhitWidth / 2 ) && mpY < ( pwall->y + pwall->mhitHeight / 2 ) )
+		//	{
+		//		killFlg = TRUE;
+		//		DrawFormatString( 700, 100, 0x0000ff, "●" );
+		//		if( mpX > ( pwall->x - pwall->hitFenceX / 2 ) && mpY > ( pwall->y - pwall->hitFenceY / 2 ) )
+		//		{
+		//			if( mpX < ( pwall->x + pwall->hitFenceX / 2 ) && mpY < ( pwall->y + pwall->hitFenceY / 2 ) )
+		//			{
+		//				DrawFormatString( 700, 100, 0xff0000, "●" );
+		//				killFlg = FALSE;
+		//				clickFlg = 0;
+		//			}
+		//		}
+		//	}
+		//	else
+		//	{
+		//		clickFlg = 0;
+		//		bmpX = 0;
+		//		bmpY = 0;
+		//		mpX = 0;
+		//		mpY = 0;
+		//	}
+		//}
+		//else
+		//{
+		//	clickFlg = 0;
+		//	bmpX = 0;
+		//	bmpY = 0;
+		//	mpX = 0;
+		//	mpY = 0;
+		//}
 	}
 
 	OldMouseInput = NowMouseInput;
