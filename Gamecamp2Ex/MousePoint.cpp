@@ -1,10 +1,10 @@
-<<<<<<< HEAD
+//<<<<<<< HEAD
 #include "MousePoint.h"
-=======
+//=======
 #include "Source.h"
 #include "MousePoint.h"
 #include "Wall.h"
->>>>>>> origin/master
+//>>>>>>> origin/master
 
 MousePoint::MousePoint()
 {
