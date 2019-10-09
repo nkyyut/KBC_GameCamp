@@ -1,4 +1,5 @@
 #include "Source.h"
+
 #include "ReadHeader.h"
 
 /*****      フレームレート構造体      *****/
@@ -10,14 +11,12 @@ typedef struct FRAMERATE_CONTROL
 	int ReFreshRateState;
 };
 FRAMERATE_CONTROL FR_Control = { 0, 0, 0.0, 0 };	//フレームレート制御構造体宣言
+
 struct OPERATE opt;
 //struct PICTURE pic;
 
 Wall *pwall;
 MousePoint mPoint;
-Player ply;
-Enemy emy;
-
 
 int GAMESTATE;
 
@@ -134,19 +133,6 @@ void GameMain()
 	DrawStage();
 	DrawUI();
 	DrawWall();
-	emy.DrawEnemy();
-	ply.DrawPlayer();
-
-	if ( mPoint.wallFlg == 1 && ply.playerFlg == 0) {
-		ply.HitPlayer( pwall );
-	}
-	
-	if ( ply.playerFlg == 1 ) {
-		ply.DangerTime( &emy, pwall );
-	}
-
-	//ply.DangerTime()
-
 	if( mPoint.killFlg == FALSE )
 	{
 		mPoint.GetMouseClick( pwall );
@@ -155,8 +141,6 @@ void GameMain()
 	DrawFormatString( 700, 130, 0x000000, "%d, %d", mPoint.bmpX, mPoint.bmpY );
 	DrawFormatString( 700, 160, 0x000000, "%d, %d", mPoint.mpX, mPoint.mpY );
 	DrawFormatString( 700, 190, 0x000000, "%d", mPoint.clickFlg );
-	DrawFormatString(700, 220, 0x000000, "%d", ply.playerFlg);
-	DrawFormatString(700, 250, 0x000000, "%d", ply.playerLife);
 }
 
 //int MouseState()
@@ -182,7 +166,6 @@ void DrawWall()
 	{
 		pwall = new Wall;
 		i = -1;
-		mPoint.wallFlg = 1;
 	}
 
 	//壁を描画する時間
@@ -216,4 +199,3 @@ void DrawWall()
 		}
 	}
 }
-
