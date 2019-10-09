@@ -1,5 +1,4 @@
 #include "Source.h"
-
 #include "ReadHeader.h"
 
 /*****      フレームレート構造体      *****/
@@ -11,12 +10,14 @@ typedef struct FRAMERATE_CONTROL
 	int ReFreshRateState;
 };
 FRAMERATE_CONTROL FR_Control = { 0, 0, 0.0, 0 };	//フレームレート制御構造体宣言
-
 struct OPERATE opt;
 //struct PICTURE pic;
 
 Wall *pwall;
 MousePoint mPoint;
+Player ply;
+Enemy emy;
+
 
 int GAMESTATE;
 
@@ -133,6 +134,19 @@ void GameMain()
 	DrawStage();
 	DrawUI();
 	DrawWall();
+	emy.DrawEnemy();
+	ply.DrawPlayer();
+
+	if ( mPoint.wallFlg == 1 && ply.playerFlg == 0) {
+		ply.HitPlayer( pwall );
+	}
+	
+	if ( ply.playerFlg == 1 ) {
+		ply.DangerTime( &emy, pwall );
+	}
+
+	//ply.DangerTime()
+
 	if( mPoint.killFlg == FALSE )
 	{
 		mPoint.GetMouseClick( pwall );
@@ -141,7 +155,8 @@ void GameMain()
 	DrawFormatString( 700, 130, 0x000000, "%d, %d", mPoint.bmpX, mPoint.bmpY );
 	DrawFormatString( 700, 160, 0x000000, "%d, %d", mPoint.mpX, mPoint.mpY );
 	DrawFormatString( 700, 190, 0x000000, "%d", mPoint.clickFlg );
-	DrawFormatString( 700, 220, 0x000000, "%d", mPoint.killFlg );
+	DrawFormatString(700, 220, 0x000000, "%d", ply.playerFlg);
+	DrawFormatString(700, 250, 0x000000, "%d", ply.playerLife);
 }
 
 //int MouseState()
@@ -167,6 +182,7 @@ void DrawWall()
 	{
 		pwall = new Wall;
 		i = -1;
+		mPoint.wallFlg = 1;
 	}
 
 	//壁を描画する時間
@@ -185,63 +201,19 @@ void DrawWall()
 			mPoint.mpY = 0;
 			mPoint.clickFlg = 0;
 			i = 0;
-			mPoint.killFlg = FALSE;
 		}
 
 		if( mPoint.killFlg == TRUE )
 		{
-			if( mPoint.CompCoor( mPoint.bmpY, mPoint.mpY ) == TRUE )
-			{
-				if( mPoint.bmpY > ( pwall->y + pwall->hitFenceY ) )
-				{
-					delete pwall;
-					mPoint.bmpX = 0;
-					mPoint.bmpY = 0;
-					mPoint.mpX = 0;
-					mPoint.mpY = 0;
-					mPoint.clickFlg = 0;
-					i = 0;
-					//mPoint.killFlg = FALSE;
-				}
-			}
-			else if( mPoint.CompCoor( mPoint.bmpY, mPoint.mpY ) == FALSE )
-			{
-				if( mPoint.mpY > ( pwall->y + pwall->hitFenceY ) )
-				{
-					delete pwall;
-					mPoint.bmpX = 0;
-					mPoint.bmpY = 0;
-					mPoint.mpX = 0;
-					mPoint.mpY = 0;
-					mPoint.clickFlg = 0;
-					i = 0;
-					//mPoint.killFlg = FALSE;
-				}
-			}
+			delete pwall;
+			mPoint.bmpX = 0;
+			mPoint.bmpY = 0;
+			mPoint.mpX = 0;
+			mPoint.mpY = 0;
+			mPoint.clickFlg = 0;
+			i = 0;
 			mPoint.killFlg = FALSE;
-			//if( pwall->RectAndLine(
-			//	pwall->x + pwall->hitFenceX / 2, pwall->x - pwall->hitFenceX / 2,
-			//	pwall->y - pwall->hitFenceY / 2, pwall->y + pwall->hitFenceY / 2,
-			//	mPoint.bmpX, mPoint.bmpY, mPoint.mpX, mPoint.mpY ) == TRUE )
-			//{
-			//	DrawFormatString( 700, 250, 0x000000, "●" );
-			//	delete pwall;
-			//	mPoint.bmpX = 0;
-			//	mPoint.bmpY = 0;
-			//	mPoint.mpX = 0;
-			//	mPoint.mpY = 0;
-			//	mPoint.clickFlg = 0;
-			//	i = 0;
-			//	mPoint.killFlg = FALSE;
-			//}
-			//delete pwall;
-			//mPoint.bmpX = 0;
-			//mPoint.bmpY = 0;
-			//mPoint.mpX = 0;
-			//mPoint.mpY = 0;
-			//mPoint.clickFlg = 0;
-			//i = 0;
-			//mPoint.killFlg = FALSE;
 		}
 	}
 }
+
