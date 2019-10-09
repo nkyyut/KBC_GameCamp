@@ -141,6 +141,7 @@ void GameMain()
 	DrawFormatString( 700, 130, 0x000000, "%d, %d", mPoint.bmpX, mPoint.bmpY );
 	DrawFormatString( 700, 160, 0x000000, "%d, %d", mPoint.mpX, mPoint.mpY );
 	DrawFormatString( 700, 190, 0x000000, "%d", mPoint.clickFlg );
+	DrawFormatString( 700, 220, 0x000000, "%d", mPoint.killFlg );
 }
 
 //int MouseState()
@@ -184,18 +185,63 @@ void DrawWall()
 			mPoint.mpY = 0;
 			mPoint.clickFlg = 0;
 			i = 0;
+			mPoint.killFlg = FALSE;
 		}
 
 		if( mPoint.killFlg == TRUE )
 		{
-			delete pwall;
-			mPoint.bmpX = 0;
-			mPoint.bmpY = 0;
-			mPoint.mpX = 0;
-			mPoint.mpY = 0;
-			mPoint.clickFlg = 0;
-			i = 0;
+			if( mPoint.CompCoor( mPoint.bmpY, mPoint.mpY ) == TRUE )
+			{
+				if( mPoint.bmpY > ( pwall->y + pwall->hitFenceY ) )
+				{
+					delete pwall;
+					mPoint.bmpX = 0;
+					mPoint.bmpY = 0;
+					mPoint.mpX = 0;
+					mPoint.mpY = 0;
+					mPoint.clickFlg = 0;
+					i = 0;
+					//mPoint.killFlg = FALSE;
+				}
+			}
+			else if( mPoint.CompCoor( mPoint.bmpY, mPoint.mpY ) == FALSE )
+			{
+				if( mPoint.mpY > ( pwall->y + pwall->hitFenceY ) )
+				{
+					delete pwall;
+					mPoint.bmpX = 0;
+					mPoint.bmpY = 0;
+					mPoint.mpX = 0;
+					mPoint.mpY = 0;
+					mPoint.clickFlg = 0;
+					i = 0;
+					//mPoint.killFlg = FALSE;
+				}
+			}
 			mPoint.killFlg = FALSE;
+			//if( pwall->RectAndLine(
+			//	pwall->x + pwall->hitFenceX / 2, pwall->x - pwall->hitFenceX / 2,
+			//	pwall->y - pwall->hitFenceY / 2, pwall->y + pwall->hitFenceY / 2,
+			//	mPoint.bmpX, mPoint.bmpY, mPoint.mpX, mPoint.mpY ) == TRUE )
+			//{
+			//	DrawFormatString( 700, 250, 0x000000, "Åú" );
+			//	delete pwall;
+			//	mPoint.bmpX = 0;
+			//	mPoint.bmpY = 0;
+			//	mPoint.mpX = 0;
+			//	mPoint.mpY = 0;
+			//	mPoint.clickFlg = 0;
+			//	i = 0;
+			//	mPoint.killFlg = FALSE;
+			//}
+			//delete pwall;
+			//mPoint.bmpX = 0;
+			//mPoint.bmpY = 0;
+			//mPoint.mpX = 0;
+			//mPoint.mpY = 0;
+			//mPoint.clickFlg = 0;
+			//i = 0;
+			//mPoint.killFlg = FALSE;
 		}
 	}
 }
