@@ -13,8 +13,10 @@ typedef struct FRAMERATE_CONTROL
 FRAMERATE_CONTROL FR_Control = { 0, 0, 0.0, 0 };	//フレームレート制御構造体宣言
 
 struct OPERATE opt;
+//struct PICTURE pic;
 
 Wall *pwall;
+MousePoint mPoint;
 
 int GAMESTATE;
 
@@ -29,7 +31,7 @@ static void FR_Wait();
 void GameInit();
 void GameMain();
 
-int MouseState();
+//int MouseState();
 
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
@@ -37,7 +39,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	GAMESTATE = GAME_TITLE;
 
 	ChangeWindowMode( TRUE );
-	SetGraphMode( 1024, 768, 32 );
+	SetGraphMode( _SCREENSIZE_X, _SCREENSIZE_Y, 32 );
 	SetDrawScreen( DX_SCREEN_BACK );
 
 	if( DxLib_Init() == -1 )	return -1;
@@ -126,28 +128,34 @@ void GameInit()
 
 void GameMain()
 {
+	
+	//mPoint.PrintMouseClick();
 	DrawStage();
 	DrawUI();
 	DrawWall();
-	DrawEnemy();
-
-	if( MouseState() == 1 )
+	if( mPoint.killFlg == FALSE )
 	{
-		DrawCircle( 400, 400, 5, 0xffffff, TRUE );
-	}
-}
-
-int MouseState()
-{
-	int Mouse = GetMouseInput();
-	if( Mouse & MOUSE_INPUT_LEFT )
-	{
-		//左クリック
-		return 1;
+		mPoint.GetMouseClick( pwall );
 	}
 
-	return 0;
+	DrawFormatString( 700, 130, 0x000000, "%d, %d", mPoint.bmpX, mPoint.bmpY );
+	DrawFormatString( 700, 160, 0x000000, "%d, %d", mPoint.mpX, mPoint.mpY );
+	DrawFormatString( 700, 190, 0x000000, "%d", mPoint.clickFlg );
 }
+
+//int MouseState()
+//{
+//	int beforemouseInput = 0;
+//	int nowmouseInput = GetMouseInput();
+//
+//	if( beforemouseInput & MOUSE_INPUT_LEFT ) 
+//	{
+//		//左クリック
+//		return 1;
+//	}
+//
+//	return 0;
+//}
 
 void DrawWall()
 {
@@ -170,7 +178,24 @@ void DrawWall()
 		if( pwall->ScreenOut() == 1 )
 		{
 			delete pwall;
+			mPoint.bmpX = 0;
+			mPoint.bmpY = 0;
+			mPoint.mpX = 0;
+			mPoint.mpY = 0;
+			mPoint.clickFlg = 0;
 			i = 0;
+		}
+
+		if( mPoint.killFlg == TRUE )
+		{
+			delete pwall;
+			mPoint.bmpX = 0;
+			mPoint.bmpY = 0;
+			mPoint.mpX = 0;
+			mPoint.mpY = 0;
+			mPoint.clickFlg = 0;
+			i = 0;
+			mPoint.killFlg = FALSE;
 		}
 	}
 }

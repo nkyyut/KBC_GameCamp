@@ -1,15 +1,19 @@
 #include "Source.h"
 #include "Wall.h"
+#include "MousePoint.h"
 
 //コンストラクタ
 Wall::Wall()
 {
 	x = 700 / 2;
 	y = -10;
-	moveSpeed = 4;
+	moveSpeed = 5;
 
-	mhitWidth = 200;
-	mhitHeight = 100;
+	mhitWidth = 250;
+	mhitHeight = 200;
+
+	hitFenceX = 200;
+	hitFenceY = 60;
 }
 
 Wall::~Wall()
@@ -37,10 +41,65 @@ int Wall::ScreenOut()
 
 void Wall::WallDraw()
 {
-	DrawBox( x - 100, y - 10, x + 100, y + 10, 0xffffff, TRUE );
+	DrawBox( x - ( hitFenceX / 2 ), y - ( hitFenceY / 2 ), x + ( hitFenceX / 2 ), y + ( hitFenceY / 2 ), 0xffffff, TRUE );
 }
 
 void Wall::HitmouseRange()
 {
+	int mX = 0;
+	int mY = 0;
+	int Mouse;
+	Mouse = GetMouseInput();
+
+	//当たり判定場所の描画
 	DrawBox( x - mhitWidth / 2, y - mhitHeight / 2, x + mhitWidth / 2, y + mhitHeight / 2, 0xF8A900, TRUE );
+
+	GetMousePoint( &mX, &mY );	//マウス座標取得
+	if( Mouse & MOUSE_INPUT_LEFT ) {
+		if( mX > ( x - mhitWidth / 2 ) && mY > ( y - mhitHeight / 2 ) )
+		{
+			if( mX < ( x + mhitWidth / 2 ) && mY < ( y + mhitHeight / 2 ) )
+			{
+				DrawFormatString( 900, 100, 0x000000, "クリック範囲内" );
+				static int Flash = 0;
+				static int Flash2 = 0;
+
+				if( Flash++ > 10 )
+				{
+					Flash2 = 1;
+					Flash = 0;
+				}
+
+			}
+		}
+	}
 }
+
+//int Wall::BreakWall( MousePoint mPoint )
+//{
+//
+//	if( mPoint.bmpX > ( x - mhitWidth / 2 ) && mPoint.bmpY > ( y - mhitHeight / 2 ) )
+//	{
+//		if( mPoint.bmpX < ( x + mhitWidth / 2 ) && mPoint.bmpY < ( y + mhitHeight / 2 ) )
+//		{
+//			if( mPoint.mpX > ( x - mhitWidth / 2 ) && mPoint.mpY > ( y - mhitHeight / 2 ) )
+//			{
+//				if( mPoint.mpX < ( x + mhitWidth / 2 ) && mPoint.mpY < ( y + mhitHeight / 2 ) )
+//				{
+//
+//				}
+//			}
+//			if( mPoint.mpX > ( x - hitFenceX / 2 ) && mPoint.mpY > ( y - hitFenceY / 2 ) )
+//			{
+//				if( mPoint.mpX < ( x + hitFenceX / 2 ) && mPoint.mpY < ( y + hitFenceY / 2 ) )
+//				{
+//					return 1;
+//				}
+//			}
+//
+//		}
+//	}
+//
+//	return 0;
+//
+//}
