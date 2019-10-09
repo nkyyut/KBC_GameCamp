@@ -4,5 +4,12 @@
 #include "DxLib.h"
 
 void DrawPlayer();
+	int playerX;
+	int playerY;
+	int playerLife;
+	
+
+//PLAYER player = { 0, 0, 2 };
+
 
 #endif

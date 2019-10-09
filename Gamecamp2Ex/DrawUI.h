@@ -1,8 +1,3 @@
-#ifndef _DRAWUI_H_
-#define _DRAWUI_H_
-
-#include "DxLib.h"
+#pragma once
 
 void DrawUI();
-
-#endif

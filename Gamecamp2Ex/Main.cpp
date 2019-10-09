@@ -1,5 +1,6 @@
 #include "Source.h"
-#include "DrawTitle.h"
+
+#include "ReadHeader.h"
 
 /*****      フレームレート構造体      *****/
 typedef struct FRAMERATE_CONTROL
@@ -12,6 +13,8 @@ typedef struct FRAMERATE_CONTROL
 FRAMERATE_CONTROL FR_Control = { 0, 0, 0.0, 0 };	//フレームレート制御構造体宣言
 
 struct OPERATE opt;
+
+Wall *pwall;
 
 int GAMESTATE;
 
@@ -26,7 +29,7 @@ static void FR_Wait();
 void GameInit();
 void GameMain();
 
-void DrawStage();
+int MouseState();
 
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
@@ -34,7 +37,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	GAMESTATE = GAME_TITLE;
 
 	ChangeWindowMode( TRUE );
-	SetGraphMode( 640, 480, 32 );
+	SetGraphMode( 1024, 768, 32 );
 	SetDrawScreen( DX_SCREEN_BACK );
 
 	if( DxLib_Init() == -1 )	return -1;
@@ -124,4 +127,50 @@ void GameInit()
 void GameMain()
 {
 	DrawStage();
+	DrawUI();
+	DrawWall();
+	DrawEnemy();
+
+	if( MouseState() == 1 )
+	{
+		DrawCircle( 400, 400, 5, 0xffffff, TRUE );
+	}
+}
+
+int MouseState()
+{
+	int Mouse = GetMouseInput();
+	if( Mouse & MOUSE_INPUT_LEFT )
+	{
+		//左クリック
+		return 1;
+	}
+
+	return 0;
+}
+
+void DrawWall()
+{
+	static int i = 0;
+
+	//壁出現までの待機時間
+	if( i != -1 &&  i++ > 60 )
+	{
+		pwall = new Wall;
+		i = -1;
+	}
+
+	//壁を描画する時間
+	if( i == -1 )
+	{
+		pwall->HitmouseRange();
+		pwall->MoveWall();
+		pwall->WallDraw();
+
+		if( pwall->ScreenOut() == 1 )
+		{
+			delete pwall;
+			i = 0;
+		}
+	}
 }
