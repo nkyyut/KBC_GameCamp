@@ -14,6 +14,8 @@ Wall::Wall()
 
 	hitFenceX = 700;
 	hitFenceY = 60;
+
+	WallState = 0;
 }
 
 Wall::~Wall()
@@ -21,6 +23,12 @@ Wall::~Wall()
 	x = 0;
 	y = 0;
 	moveSpeed = 0;
+	hitFenceX = 0;		//フェンスの場合X
+	hitFenceY = 0;		//フェンスの場合Y
+	mhitWidth = 0;		//マウスの判定内座標(横幅)
+	mhitHeight = 0;		//マウスの判定内座標(高さ)
+	WallState = 0;
+
 }
 
 void Wall::MoveWall()
