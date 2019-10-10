@@ -7,12 +7,16 @@ void Enemy::DrawEnemy()
 {
 	EnemyLife = 2;
 	//DrawLine(0,300,600,300,0xffffff);
-	DrawBox(x,y,x+50,y+50,0xffffff,true);
+	//DrawBox(x,y,x+50,y+50,0xffffff,true);
+	DrawRotaGraph( this->x, this->y, 0.7f, 0, this->EnemyPic, TRUE );
 }
 
-void Enemy::BackScrool()
+void Enemy::BackScrool( int plife, int waittime )
 {
-	ScroolSpeed +=4;
+	if( plife != 0 && ( waittime == 0 || waittime >= 160 ) )
+	{
+		ScroolSpeed += 4;
+	}
 
 	//ステージ画像表示
 
@@ -30,28 +34,38 @@ void Enemy::BackScrool()
 
 int Enemy::LoadImages()
 {
-	if((BackScreen=LoadGraph("Picture/Senjou.png")) == -1) return -1;
+	if((BackScreen=LoadGraph("Assets/Senjou.png")) == -1) return -1;
+	if( ( EnemyPic = LoadGraph( "Assets/teki1.png" ) ) == -1 )	return -1;
 
 	return 0;
 }
 
-void Enemy::up(int hp)
+void Enemy::up( int hp, int *pkillflg, int waittime )
 {
 	if (hp == 1)
 	{
-		
-		
-		if (y >= 576)
-		{
+		if ( waittime >= 120 && waittime < 170 )
+		{	
 			y -= 2;
+		}
+		else if( waittime >= 1000 )
+		{
+			y += 1;
+		}
+		//else if( animFrame >= 260 )
+		//{
+		//	animFrame = 0;
+		//}
+	}
+
+	if ( hp == 0 ) {
+		if( y > 500 ){
+			y -= 2;
+		}
+		else if( y <= 500 )
+		{
+			*pkillflg = 2;
 		}
 	}
 
-	if (hp == 0) {
-		
-		if(y>=384){
-			y -= 2;
-		}
-		
-	}
 }

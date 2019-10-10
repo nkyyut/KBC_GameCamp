@@ -1,4 +1,5 @@
 #include "Source.h"
+#include "DrawEnemy.h"
 
 void DrawStage()
 {

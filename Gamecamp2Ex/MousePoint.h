@@ -19,6 +19,20 @@ class MousePoint
 		int dmpY;
 		int clickFlg;
 		int wallFlg;
+		int i;
+
+		void mpInit()
+		{
+			bmpX = 0;
+			bmpY = 0;
+			mpX = 0;
+			mpY = 0;
+			dmpX = 0;
+			dmpY = 0;
+			clickFlg = 0;
+			wallFlg = 0;
+			i = 0;
+		}
 
 	private :
 		int OldMouseInput;

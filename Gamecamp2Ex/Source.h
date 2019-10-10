@@ -6,6 +6,7 @@
 #include "DxLib.h"
 
 #define _FONTSIZE_S	20
+#define _FONTSIZE_L	40
 
 //フレームレート定数(触るな)
 #define	_FRAMERATE_60	60
@@ -46,3 +47,12 @@ struct PICTRUE
 	int Gage;
 };
 extern struct PICTURE pic;
+
+struct SOUND
+{
+	int mainBGM;
+	int swordAttack;
+	int collision;
+};
+
+extern struct SOUND sound;
