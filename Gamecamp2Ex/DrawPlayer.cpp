@@ -38,12 +38,13 @@ void Player::HitPlayer( Wall *pwall ) {
 }
 
 // 壁に当たるとデンジャータイムが発生
-void Player::DangerTime( Enemy* enemy, Wall *pwall ) {
+void Player::DangerTime( Enemy* enemy, Wall *pwall, int colsound ) {
 	if( ++WaitTimer < 1200 )
 	{
 		HitPlayer( pwall );
 		if( pKillFlg == 0 && playerLife == 0 )
 		{
+			PlaySoundMem( colsound, DX_PLAYTYPE_BACK );
 			pKillFlg = 1;
 		}
 	}
@@ -54,8 +55,8 @@ void Player::DangerTime( Enemy* enemy, Wall *pwall ) {
 		WaitTimer = 0;
 	}
 
-	DrawFormatString( 700, 280, 0x000000, "%d", WaitTimer );
-	DrawFormatString( 700, 310, 0x000000, "%d", pKillFlg );
+	//DrawFormatString( 700, 280, 0x000000, "%d", WaitTimer );
+	//DrawFormatString( 700, 310, 0x000000, "%d", pKillFlg );
 	enemy->up( playerLife, &pKillFlg, this->WaitTimer );
 }
 

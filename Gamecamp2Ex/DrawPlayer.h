@@ -16,7 +16,7 @@ public:
 	int dtimeFrame = 0;
 	void DrawPlayer();
 	void HitPlayer( Wall *pwall );
-	void DangerTime(Enemy* enemy, Wall *pwall );
+	void DangerTime( Enemy* enemy, Wall *pwall, int colsound );
 	Player();
 	int playerLife;
 	int GoalDist = 0;
