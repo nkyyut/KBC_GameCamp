@@ -19,8 +19,6 @@ public:
 	void DangerTime(Enemy* enemy, Wall *pwall );
 	Player();
 	int playerLife;
-	int AnimationTime = 0;
-	void FrashAnimation();
 
 	int playerPic;
 	int LoadPlayerPic();
