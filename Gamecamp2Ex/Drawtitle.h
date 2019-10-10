@@ -11,7 +11,9 @@ public:
 	void Init();
 	void StartGame();
 	void EndGame();
+	void GameEnd();
 	int LoadSounds();
+	
 	
 private:
 	Button startButton;
@@ -20,4 +22,5 @@ private:
 	int mpY;
 	int TitleBGM;
 	int ClickSE;
+	
 };
