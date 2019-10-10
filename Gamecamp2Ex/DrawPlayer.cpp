@@ -17,13 +17,18 @@ void Player::DrawPlayer()
 {
 	DrawBox(playerX, playerY, 400, 400, 0xff0000, TRUE);
 	DrawCircle(300, 568, 3, 0xff00ff, 1);
+	DrawRotaGraph( playerX, playerY, 1.0f, 0, playerPic, TRUE );
 
+}
 
+int Player::LoadPlayerPic()
+{
+	if( ( playerPic = LoadGraph( "Assets/uma1.png" ) ) == -1 )	return -1;
 }
 
 void Player::HitPlayer( Wall *pwall ) {
 
-	if ((pwall->y + (pwall->hitFenceY / 2)) >= playerY)
+	if ((pwall->y + (pwall->hitFenceY / 2)) >= playerY - 168 )
 	{
 		playerLife--;
 		playerFlg = 1;

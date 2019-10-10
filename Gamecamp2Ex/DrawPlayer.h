@@ -19,6 +19,9 @@ public:
 	Player();
 	int playerLife;
 
+	int playerPic;
+	int LoadPlayerPic();
+
 
 
 };

@@ -9,6 +9,7 @@ public:
 	void BackScrool();
 	int LoadImages();
 	void up(int hp);
+	int animFrame = 0;
 private:
 	int ScroolSpeed;
 	int BackScreen;
