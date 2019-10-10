@@ -7,7 +7,8 @@ void Enemy::DrawEnemy()
 {
 	EnemyLife = 2;
 	//DrawLine(0,300,600,300,0xffffff);
-	DrawBox(x,y,x+50,y+50,0xffffff,true);
+	//DrawBox(x,y,x+50,y+50,0xffffff,true);
+	DrawRotaGraph( this->x, this->y, 0.7f, 0, this->EnemyPic, TRUE );
 }
 
 void Enemy::BackScrool( int waittime )
@@ -34,6 +35,7 @@ void Enemy::BackScrool( int waittime )
 int Enemy::LoadImages()
 {
 	if((BackScreen=LoadGraph("Assets/Senjou.png")) == -1) return -1;
+	if( ( EnemyPic = LoadGraph( "Assets/teki1.png" ) ) == -1 )	return -1;
 
 	return 0;
 }
@@ -42,7 +44,7 @@ void Enemy::up( int hp, int *pkillflg, int waittime )
 {
 	if (hp == 1)
 	{
-		if ( waittime < 50 )
+		if ( waittime >= 120 && waittime < 160 )
 		{	
 			y -= 2;
 		}
