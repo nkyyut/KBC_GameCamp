@@ -34,6 +34,10 @@ void TitleScene::DrawTitle( Repush *repush )
 		DrawLine(444, 700, 633, 700, 0x000000);
 	}
 
+	if (CheckSoundMem(this->TitleBGM) == 0) {
+		PlaySoundMem(this->TitleBGM, DX_PLAYTYPE_BACK);
+	}
+
 	this->startButton.DrawButton();
 	this->endButton.DrawButton();
 
@@ -119,7 +123,7 @@ void TitleScene::GameEnd()
 int TitleScene::LoadSounds()
 {
 	//タイトル
-	if ((TitleBGM = LoadSoundMem("Assets/SHWフリー音楽素材/Title.mp3")) == -1) return -1;
+	if ((TitleBGM = LoadSoundMem("Assets/SHWフリー音楽素材/Title.mp3")) == -1)	return -1;
 	
 	//クリック音
 	if ((ClickSE = LoadSoundMem("Assets/ポケットサウンド/Click.mp3")) == -1) return -1;

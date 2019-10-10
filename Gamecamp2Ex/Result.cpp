@@ -13,7 +13,6 @@ void ResultScene::DrawResult( Repush *repush )
 	GetMousePoint(&this->mpX, &this->mpY);
 
 	LoadGraphScreen(0, 0, "Assets/ResultImage.png", false);
-	DrawFormatString(0, 0, 0xffffff,"%d, %d", mpX, mpY);
 	this->backButton.DrawButton();
 	
 	if (backButton.ChackHit(this->mpX, this->mpY) == 1) {

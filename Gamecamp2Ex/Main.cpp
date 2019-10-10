@@ -49,6 +49,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	ChangeWindowMode( TRUE );
 	SetGraphMode( _SCREENSIZE_X, _SCREENSIZE_Y, 32 );
 	SetDrawScreen( DX_SCREEN_BACK );
+	SetMainWindowText("‚É‚°‚Þ‚µ‚á");
+	SetWindowIconID(333);
 
 	if( DxLib_Init() == -1 )	return -1;
 
@@ -154,15 +156,15 @@ void GameMain()
 	}
 
 	//mPoint.PrintMouseClick();
-	enemy.BackScrool( player.playerLife, player.WaitTimer );
+	enemy.BackScrool( player.playerLife, player.WaitTimer, player.GoalDist);
 	//DrawStage();
 	DrawWall();
 	player.DrawPlayer();
 	enemy.DrawEnemy();
-	//DrawUI( player.GoalDist );
+	DrawUI( player.GoalDist );
 	
 
-	if( player.GoalDist++ >= 400 )
+	if( player.GoalDist++ >= _GAMECLEARTIME_ )
 	{
 		mPoint.mpInit();
 		enemy.eInit();
@@ -227,7 +229,7 @@ void DrawWall()
 	{
 		//pwall->HitmouseRange();
 		if( player.playerLife != 0 && ( player.WaitTimer == 0 || player.WaitTimer >= 160 ) ) {
-			pwall->MoveWall();
+			pwall->MoveWall(player.GoalDist);
 		}
 		pwall->WallDraw();
 
