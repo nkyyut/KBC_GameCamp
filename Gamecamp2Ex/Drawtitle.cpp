@@ -7,8 +7,15 @@
 /// <summary>
 /// ƒ^ƒCƒgƒ‹‰æ–Ê‚ð•`‰æ‚µ‚Ü‚·
 /// </summary>
-void TitleScene::DrawTitle() 
+void TitleScene::DrawTitle( Repush *repush ) 
 {
+	repush->NowK = GetMouseInput();
+	if( ( repush->NowK == 0 ) && ( repush->OldK != 0 ) )
+	{
+		repush->OldK = 0;
+		repush->rePushFlg = 0;
+
+	}
 	SetFontSize( _FONTSIZE_S );
 
 	
@@ -30,19 +37,16 @@ void TitleScene::DrawTitle()
 	this->startButton.DrawButton();
 	this->endButton.DrawButton();
 
-	if (CheckSoundMem(TitleBGM) == 0) {
-		PlaySoundMem(TitleBGM, DX_PLAYTYPE_BACK);
+	if( repush->rePushFlg == 0 )
+	{
+		this->StartGame();
+		this->EndGame();
 	}
-
-
-	this->StartGame();
-	this->EndGame();
 
 	if( opt.Kflg & PAD_INPUT_M )
 	{
 		GAMESTATE = GAME_INIT;
 	}
-	//DrawFormatString(0, 60, 0x000000, "%d,%d", mpX, mpY);
 }
 
 TitleScene::TitleScene()

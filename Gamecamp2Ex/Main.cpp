@@ -159,7 +159,7 @@ void GameMain()
 	DrawWall();
 	player.DrawPlayer();
 	enemy.DrawEnemy();
-	DrawUI( player.GoalDist );
+	//DrawUI( player.GoalDist );
 	
 
 	if( player.GoalDist++ >= 400 )
@@ -168,7 +168,7 @@ void GameMain()
 		enemy.eInit();
 		player.pInit();
 		GAMESTATE = GAME_WIN;
-
+		StopSoundMem(sound.mainBGM);
 	}
 
 	if( mPoint.killFlg == FALSE )
@@ -199,6 +199,7 @@ void GameMain()
 		enemy.eInit();
 		player.pInit();
 		GAMESTATE = GAME_TITLE;
+		StopSoundMem(sound.mainBGM);
 	}
 
 	//DrawFormatString( 700, 130, 0x000000, "%d, %d", mPoint.bmpX, mPoint.bmpY );

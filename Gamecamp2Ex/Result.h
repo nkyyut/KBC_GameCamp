@@ -1,15 +1,16 @@
 #pragma once
 
 #include "Button.h"
+#include "Repush.h"
 
 class  ResultScene
 {
 public:
 	ResultScene();
 	~ResultScene();
-	void DrawResult();
+	void DrawResult( Repush *repush );
 	void Init();
-	void SceneBack();
+	void SceneBack(Repush *repush);
 	int LoadSounds();
 private:
 	Button backButton;

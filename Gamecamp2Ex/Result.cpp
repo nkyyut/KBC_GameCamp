@@ -1,11 +1,12 @@
 #include "Source.h"
 #include "DxLib.h"
 #include "Result.h"
+#include "Repush.h"
 
 /// /// <summary>
 /// リザルト画面を描画します
 /// </summary>
-void ResultScene::DrawResult()
+void ResultScene::DrawResult( Repush *repush )
 {
 	SetFontSize(_FONTSIZE_S);
 
@@ -23,7 +24,7 @@ void ResultScene::DrawResult()
 		PlaySoundMem(GameClearBGM, DX_PLAYTYPE_BACK);
 	}
 
-	this->SceneBack();
+	this->SceneBack( repush );
 
 }
 
@@ -51,12 +52,14 @@ void ResultScene::Init()
 /// スタートボタンとマウスの当たり判定を行う
 /// マウスが押されると判定を行う
 /// </summary>
-void ResultScene::SceneBack()
+void ResultScene::SceneBack( Repush *repush )
 {
 	int mouse = GetMouseInput();
 
 	if (mouse && MOUSE_INPUT_LEFT) {
 		if (backButton.ChackHit(mpX, mpY) == 1) {
+			repush->OldK = GetMouseInput();
+			repush->rePushFlg = 1;
 			StopSoundMem(GameClearBGM);
 			PlaySoundMem(click, DX_PLAYTYPE_BACK);
 			GAMESTATE = GAME_TITLE;
