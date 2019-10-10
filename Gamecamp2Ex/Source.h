@@ -2,8 +2,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "DxLib.h"
+
+#define ICON "Assets/nigemusya.icon"
+
+//ƒQ[ƒ€ƒNƒŠƒA‚Ü‚Å‚ÌŠÔ
+#define _GAMECLEARTIME_ 2400
 
 #define _FONTSIZE_S	20
 #define _FONTSIZE_L	40

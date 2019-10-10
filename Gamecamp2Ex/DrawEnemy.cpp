@@ -11,11 +11,11 @@ void Enemy::DrawEnemy()
 	DrawRotaGraph( this->x, this->y, 0.7f, 0, this->EnemyPic, TRUE );
 }
 
-void Enemy::BackScrool( int plife, int waittime )
+void Enemy::BackScrool( int plife, int waittime, int nowtime)
 {
 	if( plife != 0 && ( waittime == 0 || waittime >= 160 ) )
 	{
-		ScroolSpeed += 4;
+		ScroolSpeed += 5 + (nowtime / 600);
 	}
 
 	//ステージ画像表示
@@ -44,13 +44,13 @@ void Enemy::up( int hp, int *pkillflg, int waittime )
 {
 	if (hp == 1)
 	{
-		if ( waittime >= 120 && waittime < 170 )
+		if ( waittime >= 0 && waittime < 60 )
 		{	
-			y -= 2;
+			y -= 1;
 		}
 		else if( waittime >= 1000 )
 		{
-			y += 1;
+			y += 3;
 		}
 		//else if( animFrame >= 260 )
 		//{
@@ -60,7 +60,7 @@ void Enemy::up( int hp, int *pkillflg, int waittime )
 
 	if ( hp == 0 ) {
 		if( y > 500 ){
-			y -= 2;
+			y -= 5;
 		}
 		else if( y <= 500 )
 		{

@@ -7,7 +7,7 @@ class Wall
 	public :
 		Wall();
 		~Wall();
-		void MoveWall();
+		void MoveWall(int nowtime);
 		void WallDraw();
 //		int BreakWall( MousePoint *mPoint );
 		int ScreenOut();

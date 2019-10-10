@@ -13,7 +13,7 @@ class Enemy {
 
 	public:
 		void DrawEnemy();
-		void BackScrool( int plife, int waittime );
+		void BackScrool( int plife, int waittime, int nowtime);
 		int LoadImages();
 		void up( int hp, int *pkillflg, int waittime );
 		int animFrame = 0;

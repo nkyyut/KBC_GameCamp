@@ -7,8 +7,15 @@
 /// <summary>
 /// タイトル画面を描画します
 /// </summary>
-void TitleScene::DrawTitle() 
+void TitleScene::DrawTitle( Repush *repush ) 
 {
+	repush->NowK = GetMouseInput();
+	if( ( repush->NowK == 0 ) && ( repush->OldK != 0 ) )
+	{
+		repush->OldK = 0;
+		repush->rePushFlg = 0;
+
+	}
 	SetFontSize( _FONTSIZE_S );
 
 	
@@ -27,22 +34,23 @@ void TitleScene::DrawTitle()
 		DrawLine(444, 700, 633, 700, 0x000000);
 	}
 
+	if (CheckSoundMem(this->TitleBGM) == 0) {
+		PlaySoundMem(this->TitleBGM, DX_PLAYTYPE_BACK);
+	}
+
 	this->startButton.DrawButton();
 	this->endButton.DrawButton();
 
-	if (CheckSoundMem(TitleBGM) == 0) {
-		PlaySoundMem(TitleBGM, DX_PLAYTYPE_BACK);
+	if( repush->rePushFlg == 0 )
+	{
+		this->StartGame();
+		this->EndGame();
 	}
-
-
-	this->StartGame();
-	this->EndGame();
 
 	if( opt.Kflg & PAD_INPUT_M )
 	{
 		GAMESTATE = GAME_INIT;
 	}
-	//DrawFormatString(0, 60, 0x000000, "%d,%d", mpX, mpY);
 }
 
 TitleScene::TitleScene()
@@ -115,7 +123,7 @@ void TitleScene::GameEnd()
 int TitleScene::LoadSounds()
 {
 	//タイトル
-	if ((TitleBGM = LoadSoundMem("Assets/SHWフリー音楽素材/Title.mp3")) == -1) return -1;
+	if ((TitleBGM = LoadSoundMem("Assets/SHWフリー音楽素材/Title.mp3")) == -1)	return -1;
 	
 	//クリック音
 	if ((ClickSE = LoadSoundMem("Assets/ポケットサウンド/Click.mp3")) == -1) return -1;

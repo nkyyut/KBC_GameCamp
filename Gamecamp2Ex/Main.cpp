@@ -22,6 +22,7 @@ TitleScene title;
 Player player;
 Enemy enemy;
 ResultScene result;
+Repush repush;
 
 int GAMESTATE;
 
@@ -48,6 +49,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	ChangeWindowMode( TRUE );
 	SetGraphMode( _SCREENSIZE_X, _SCREENSIZE_Y, 32 );
 	SetDrawScreen( DX_SCREEN_BACK );
+	SetMainWindowText("‚É‚°‚Þ‚µ‚á");
+	SetWindowIconID(333);
 
 	if( DxLib_Init() == -1 )	return -1;
 
@@ -68,7 +71,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 		switch( GAMESTATE )
 		{
 			case GAME_TITLE:
-				title.DrawTitle();
+				title.DrawTitle( &repush );
 				break;
 
 			case GAME_INIT:
@@ -80,7 +83,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 				break;
 
 			case GAME_WIN:
-				result.DrawResult();
+				result.DrawResult( &repush );
 				break;
 
 			case GAME_END:
@@ -124,7 +127,7 @@ static void FR_Draw()
 
 	SetFontSize( _FONTSIZE_S );
 	SetFontSize( _FONTSIZE_S );
-	DrawFormatString( 0, 0, 0xff0000, "%.1f", FR_Control.mFps );
+	//DrawFormatString( 0, 0, 0xff0000, "%.1f", FR_Control.mFps );
 
 }
 
@@ -153,7 +156,7 @@ void GameMain()
 	}
 
 	//mPoint.PrintMouseClick();
-	enemy.BackScrool( player.playerLife, player.WaitTimer );
+	enemy.BackScrool( player.playerLife, player.WaitTimer, player.GoalDist);
 	//DrawStage();
 	DrawWall();
 	player.DrawPlayer();
@@ -161,13 +164,13 @@ void GameMain()
 	DrawUI( player.GoalDist );
 	
 
-	if( player.GoalDist++ >= 2400 )
+	if( player.GoalDist++ >= _GAMECLEARTIME_ )
 	{
 		mPoint.mpInit();
 		enemy.eInit();
 		player.pInit();
 		GAMESTATE = GAME_WIN;
-
+		StopSoundMem(sound.mainBGM);
 	}
 
 	if( mPoint.killFlg == FALSE )
@@ -198,6 +201,7 @@ void GameMain()
 		enemy.eInit();
 		player.pInit();
 		GAMESTATE = GAME_TITLE;
+		StopSoundMem(sound.mainBGM);
 	}
 
 	//DrawFormatString( 700, 130, 0x000000, "%d, %d", mPoint.bmpX, mPoint.bmpY );
@@ -225,7 +229,7 @@ void DrawWall()
 	{
 		//pwall->HitmouseRange();
 		if( player.playerLife != 0 && ( player.WaitTimer == 0 || player.WaitTimer >= 160 ) ) {
-			pwall->MoveWall();
+			pwall->MoveWall(player.GoalDist);
 		}
 		pwall->WallDraw();
 

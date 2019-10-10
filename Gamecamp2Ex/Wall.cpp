@@ -31,9 +31,9 @@ Wall::~Wall()
 
 }
 
-void Wall::MoveWall()
+void Wall::MoveWall(int nowtime)
 {
-	y += moveSpeed;
+	y += moveSpeed + (nowtime / 600);
 }
 
 int Wall::ScreenOut()

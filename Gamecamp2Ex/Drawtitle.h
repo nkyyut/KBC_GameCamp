@@ -1,13 +1,14 @@
 #pragma once
 
 #include "Button.h"
+#include "Repush.h"
 
 class  TitleScene
 {
 public:
 	 TitleScene();
 	~ TitleScene();
-	void DrawTitle();	
+	void DrawTitle( Repush *repush );	
 	void Init();
 	void StartGame();
 	void EndGame();
