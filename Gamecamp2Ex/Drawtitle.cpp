@@ -75,14 +75,24 @@ void TitleScene::StartGame()
 /// </summary>
 void TitleScene::EndGame()
 {
+	
 	int mouse = GetMouseInput();
 
 	if (mouse && MOUSE_INPUT_LEFT) {
 		if (endButton.ChackHit(mpX, mpY) == 1) {
+			PlaySoundMem(ClickSE, DX_PLAYTYPE_BACK);
 			GAMESTATE = GAME_END;
 			StopSoundMem(TitleBGM);
+			
 		}
 	}
+}	
+
+void TitleScene::GameEnd()
+{
+	static int WaitTime = 0;
+
+	if (++WaitTime > 60)  GAMESTATE = END;
 }
 
 int TitleScene::LoadSounds()
