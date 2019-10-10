@@ -24,21 +24,29 @@ void MousePoint::GetMouseClick( const Wall *pwall )
 		&& ( ( NowMouseInput & MOUSE_INPUT_LEFT ) == MOUSE_INPUT_LEFT ) ) )
 	{
 		GetMousePoint( &bmpX, &bmpY );                        //クリックしたときの座標を格納
-		if( bmpX > ( pwall->x - pwall->mhitWidth / 2 ) && bmpY > ( pwall->y - pwall->mhitHeight / 2 ) )
+		if( wallFlg == 1 )
 		{
-			if( bmpX < ( pwall->x + pwall->mhitWidth / 2 ) && bmpY < ( pwall->y + pwall->mhitHeight / 2 ) )
+			if( bmpX > ( pwall->x - pwall->mhitWidth / 2 ) && bmpY > ( pwall->y - pwall->mhitHeight / 2 ) )
 			{
-				clickFlg = 1;
-				DrawFormatString( 700, 100, 0x0000ff, "●" );
-				if( bmpX > ( pwall->x - pwall->hitFenceX / 2 ) && bmpY > ( pwall->y - pwall->hitFenceY / 2 ) )
+				if( bmpX < ( pwall->x + pwall->mhitWidth / 2 ) && bmpY < ( pwall->y + pwall->mhitHeight / 2 ) )
 				{
-					if( bmpX < ( pwall->x + pwall->hitFenceX / 2 ) && bmpY < ( pwall->y + pwall->hitFenceY / 2 ) )
+					clickFlg = 1;
+					DrawFormatString( 700, 100, 0x0000ff, "●" );
+					if( bmpX > ( pwall->x - pwall->hitFenceX / 2 ) && bmpY > ( pwall->y - pwall->hitFenceY / 2 ) )
 					{
-						clickFlg = 0;
-						bmpX = 0;
-						bmpY = 0;
-						DrawFormatString( 700, 100, 0xff0000, "●" );
+						if( bmpX < ( pwall->x + pwall->hitFenceX / 2 ) && bmpY < ( pwall->y + pwall->hitFenceY / 2 ) )
+						{
+							clickFlg = 0;
+							bmpX = 0;
+							bmpY = 0;
+							DrawFormatString( 700, 100, 0xff0000, "●" );
+						}
 					}
+				}
+				else
+				{
+					bmpX = 0;
+					bmpY = 0;
 				}
 			}
 			else
@@ -47,18 +55,13 @@ void MousePoint::GetMouseClick( const Wall *pwall )
 				bmpY = 0;
 			}
 		}
-		else
-		{
-			bmpX = 0;
-			bmpY = 0;
-		}
 	}
 
 	//ドラッグしてる時に
-	if( clickFlg == 1 && ( ( ( OldMouseInput & MOUSE_INPUT_LEFT ) == MOUSE_INPUT_LEFT ) ) 
-		&& ( ( NowMouseInput & MOUSE_INPUT_LEFT ) != MOUSE_INPUT_LEFT ) )
-	{
-	}
+	//if( clickFlg == 1 && ( ( ( OldMouseInput & MOUSE_INPUT_LEFT ) == MOUSE_INPUT_LEFT ) ) 
+	//	&& ( ( NowMouseInput & MOUSE_INPUT_LEFT ) != MOUSE_INPUT_LEFT ) )
+	//{
+	//}
 
 	//指を離した時
 	if( clickFlg == 1 && ( ( ( OldMouseInput & MOUSE_INPUT_LEFT ) == MOUSE_INPUT_LEFT )
