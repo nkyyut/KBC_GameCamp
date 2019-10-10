@@ -22,6 +22,7 @@ TitleScene title;
 Player player;
 Enemy enemy;
 ResultScene result;
+Repush repush;
 
 int GAMESTATE;
 
@@ -68,7 +69,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 		switch( GAMESTATE )
 		{
 			case GAME_TITLE:
-				title.DrawTitle();
+				title.DrawTitle( &repush );
 				break;
 
 			case GAME_INIT:
@@ -80,7 +81,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 				break;
 
 			case GAME_WIN:
-				result.DrawResult();
+				result.DrawResult( &repush );
 				break;
 
 			case GAME_END:
@@ -124,7 +125,7 @@ static void FR_Draw()
 
 	SetFontSize( _FONTSIZE_S );
 	SetFontSize( _FONTSIZE_S );
-	DrawFormatString( 0, 0, 0xff0000, "%.1f", FR_Control.mFps );
+	//DrawFormatString( 0, 0, 0xff0000, "%.1f", FR_Control.mFps );
 
 }
 
@@ -161,7 +162,7 @@ void GameMain()
 	DrawUI( player.GoalDist );
 	
 
-	if( player.GoalDist++ >= 2400 )
+	if( player.GoalDist++ >= 400 )
 	{
 		mPoint.mpInit();
 		enemy.eInit();

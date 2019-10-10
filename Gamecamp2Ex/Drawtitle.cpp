@@ -1,22 +1,34 @@
 #include "Source.h"
 #include "DrawTitle.h"
+#include "Repush.h"
 #include "DxLib.h"
 
 /// <summary>
 /// ƒ^ƒCƒgƒ‹‰æ–Ê‚ð•`‰æ‚µ‚Ü‚·
 /// </summary>
-void TitleScene::DrawTitle() 
+void TitleScene::DrawTitle( Repush *repush ) 
 {
+	repush->NowK = GetMouseInput();
+	if( ( repush->NowK == 0 ) && ( repush->OldK != 0 ) )
+	{
+		repush->OldK = 0;
+		repush->rePushFlg = 0;
+
+	}
 	SetFontSize( _FONTSIZE_S );
 
-	GetMousePoint(&this->mpX, &this->mpY);
+	
+	GetMousePoint( &this->mpX, &this->mpY );
 
 	LoadGraphScreen(0,0, "Assets/TitleImage.png", false);
 	this->startButton.DrawButton();
 	this->endButton.DrawButton();
 
-	this->StartGame();
-	this->EndGame();
+	if( repush->rePushFlg == 0 )
+	{
+		this->StartGame();
+		this->EndGame();
+	}
 
 	if( opt.Kflg & PAD_INPUT_M )
 	{
