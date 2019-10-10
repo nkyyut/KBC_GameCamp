@@ -15,6 +15,10 @@ void TitleScene::DrawTitle()
 	this->startButton.DrawButton();
 	this->endButton.DrawButton();
 
+	if (CheckSoundMem(TitleBGM) == 0) {
+		PlaySoundMem(TitleBGM, DX_PLAYTYPE_BACK);
+	}
+
 	this->StartGame();
 	this->EndGame();
 
@@ -39,6 +43,7 @@ void TitleScene::Init()
 {
 	this->startButton.image = LoadGraph("Assets/startButtom.png");
 	this->endButton.image = LoadGraph("Assets/endButton.png");
+	this->LoadSounds();
 	startButton.SetButtonPosition(530, 600);
 	endButton.SetButtonPosition(540, 670);
 	startButton.SetHitPos(395, 574, 610, 632);
@@ -53,9 +58,11 @@ void TitleScene::Init()
 void TitleScene::StartGame()
 {
 	int mouse = GetMouseInput();
-
+	
 	if (mouse && MOUSE_INPUT_LEFT){
 		if (startButton.ChackHit(mpX, mpY) == 1) {
+			PlaySoundMem(ClickSE, DX_PLAYTYPE_BACK);
+			StopSoundMem(TitleBGM);
 			GAMESTATE = GAME_INIT;
 		}
 	}
@@ -73,6 +80,18 @@ void TitleScene::EndGame()
 	if (mouse && MOUSE_INPUT_LEFT) {
 		if (endButton.ChackHit(mpX, mpY) == 1) {
 			GAMESTATE = GAME_END;
+			StopSoundMem(TitleBGM);
 		}
 	}
+}
+
+int TitleScene::LoadSounds()
+{
+	//タイトル
+	if ((TitleBGM = LoadSoundMem("Assets/SHWフリー音楽素材/Title.mp3")) == -1) return -1;
+	
+	//クリック音
+	if ((ClickSE = LoadSoundMem("Assets/ポケットサウンド/Click.mp3")) == -1) return -1;
+
+	return 0;
 }

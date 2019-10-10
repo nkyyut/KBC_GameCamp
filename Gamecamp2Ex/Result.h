@@ -10,8 +10,11 @@ public:
 	void DrawResult();
 	void Init();
 	void SceneBack();
+	int LoadSounds();
 private:
 	Button backButton;
 	int mpX;
 	int mpY;
+	int GameClearBGM;
+	int click;
 };

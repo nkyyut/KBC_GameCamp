@@ -17,6 +17,9 @@ struct OPERATE opt;
 
 Wall *pwall;
 MousePoint mPoint;
+TitleScene title;
+Player player;
+Enemy enemy;
 
 int GAMESTATE;
 
@@ -44,6 +47,11 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
 	if( DxLib_Init() == -1 )	return -1;
 
+	title.Init();
+
+	if( ( enemy.LoadImages() == -1 ) )	return -1;
+	if( ( player.LoadPlayerPic() == -1 ) )	return -1;
+
 	while( ProcessMessage() == 0 && ClearDrawScreen() == 0 && GAMESTATE != 99 )
 	{
 
@@ -54,7 +62,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 		switch( GAMESTATE )
 		{
 			case GAME_TITLE:
-				DrawTitle();
+				title.DrawTitle();
 				break;
 
 			case GAME_INIT:
@@ -130,17 +138,31 @@ void GameMain()
 {
 	
 	//mPoint.PrintMouseClick();
+	enemy.BackScrool();
 	DrawStage();
 	DrawUI();
 	DrawWall();
+	enemy.DrawEnemy();
+	player.DrawPlayer();
 	if( mPoint.killFlg == FALSE )
 	{
 		mPoint.GetMouseClick( pwall );
 	}
 
+	if( mPoint.wallFlg == 1 && player.playerFlg == 0 )
+	{
+		player.HitPlayer( pwall );
+	}
+
+	if( player.playerFlg == 1 )
+	{
+		player.DangerTime( &enemy, pwall );
+	}
+
 	DrawFormatString( 700, 130, 0x000000, "%d, %d", mPoint.bmpX, mPoint.bmpY );
 	DrawFormatString( 700, 160, 0x000000, "%d, %d", mPoint.mpX, mPoint.mpY );
 	DrawFormatString( 700, 190, 0x000000, "%d", mPoint.clickFlg );
+	DrawFormatString( 700, 220, 0x000000, "%d", mPoint.killFlg );
 }
 
 //int MouseState()
@@ -166,9 +188,11 @@ void DrawWall()
 	{
 		pwall = new Wall;
 		i = -1;
+		mPoint.wallFlg = 1;
 	}
 
 	//ï«Çï`âÊÇ∑ÇÈéûä‘
+
 	if( i == -1 )
 	{
 		pwall->HitmouseRange();
@@ -184,18 +208,66 @@ void DrawWall()
 			mPoint.mpY = 0;
 			mPoint.clickFlg = 0;
 			i = 0;
+			mPoint.killFlg = FALSE;
+			mPoint.wallFlg = 0;
 		}
 
 		if( mPoint.killFlg == TRUE )
 		{
-			delete pwall;
-			mPoint.bmpX = 0;
-			mPoint.bmpY = 0;
-			mPoint.mpX = 0;
-			mPoint.mpY = 0;
-			mPoint.clickFlg = 0;
-			i = 0;
+			if( mPoint.CompCoor( mPoint.bmpY, mPoint.mpY ) == TRUE )
+			{
+				if( mPoint.bmpY > ( pwall->y + pwall->hitFenceY ) )
+				{
+					delete pwall;
+					mPoint.bmpX = 0;
+					mPoint.bmpY = 0;
+					mPoint.mpX = 0;
+					mPoint.mpY = 0;
+					mPoint.clickFlg = 0;
+					i = 0;
+					//mPoint.killFlg = FALSE;
+					mPoint.wallFlg = 0;
+				}
+			}
+			else if( mPoint.CompCoor( mPoint.bmpY, mPoint.mpY ) == FALSE )
+			{
+				if( mPoint.mpY > ( pwall->y + pwall->hitFenceY ) )
+				{
+					delete pwall;
+					mPoint.bmpX = 0;
+					mPoint.bmpY = 0;
+					mPoint.mpX = 0;
+					mPoint.mpY = 0;
+					mPoint.clickFlg = 0;
+					i = 0;
+					//mPoint.killFlg = FALSE;
+					mPoint.wallFlg = 0;
+				}
+			}
 			mPoint.killFlg = FALSE;
+			//if( pwall->RectAndLine(
+			//	pwall->x + pwall->hitFenceX / 2, pwall->x - pwall->hitFenceX / 2,
+			//	pwall->y - pwall->hitFenceY / 2, pwall->y + pwall->hitFenceY / 2,
+			//	mPoint.bmpX, mPoint.bmpY, mPoint.mpX, mPoint.mpY ) == TRUE )
+			//{
+			//	DrawFormatString( 700, 250, 0x000000, "Åú" );
+			//	delete pwall;
+			//	mPoint.bmpX = 0;
+			//	mPoint.bmpY = 0;
+			//	mPoint.mpX = 0;
+			//	mPoint.mpY = 0;
+			//	mPoint.clickFlg = 0;
+			//	i = 0;
+			//	mPoint.killFlg = FALSE;
+			//}
+			//delete pwall;
+			//mPoint.bmpX = 0;
+			//mPoint.bmpY = 0;
+			//mPoint.mpX = 0;
+			//mPoint.mpY = 0;
+			//mPoint.clickFlg = 0;
+			//i = 0;
+			//mPoint.killFlg = FALSE;
 		}
 	}
 }
