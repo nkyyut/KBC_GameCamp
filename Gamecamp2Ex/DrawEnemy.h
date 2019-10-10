@@ -7,12 +7,13 @@ class Enemy {
 	private:
 		int ScroolSpeed;
 		int BackScreen;
+		int EnemyPic;
 		int EnemyLife;
-		int x = 512, y = 768;
+		int x = 1024 / 2, y = 870;
 
 	public:
 		void DrawEnemy();
-		void BackScrool( int waittime );
+		void BackScrool( int plife, int waittime );
 		int LoadImages();
 		void up( int hp, int *pkillflg, int waittime );
 		int animFrame = 0;
@@ -21,8 +22,8 @@ class Enemy {
 		{
 			ScroolSpeed = 0;
 			EnemyLife = 0;
-			x = 512;
-			y = 768;
+			x = 1024 / 2;
+			y = 870;
 		}
 
 };

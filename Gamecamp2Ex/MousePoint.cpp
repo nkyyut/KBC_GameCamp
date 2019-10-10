@@ -26,12 +26,12 @@ void MousePoint::GetMouseClick( const Wall *pwall )
 		GetMousePoint( &bmpX, &bmpY );                        //クリックしたときの座標を格納
 		if( wallFlg == 1 )
 		{
-			if( bmpX > ( pwall->x - pwall->mhitWidth / 2 ) && bmpY > ( pwall->y - pwall->mhitHeight / 2 ) )
+			if( bmpX > ( pwall->x - pwall->mhitWidth / 2 ) && bmpY > ( ( pwall->y - pwall->mhitHeight / 2 ) - 60 ) )
 			{
-				if( bmpX < ( pwall->x + pwall->mhitWidth / 2 ) && bmpY < ( pwall->y + pwall->mhitHeight / 2 ) )
+				if( bmpX < ( pwall->x + pwall->mhitWidth / 2 ) && bmpY < ( ( pwall->y + pwall->mhitHeight / 2 ) + 150 ) )
 				{
 					clickFlg = 1;
-					DrawFormatString( 700, 100, 0x0000ff, "●" );
+					//DrawFormatString( 700, 100, 0x0000ff, "●" );
 					if( bmpX > ( pwall->x - pwall->hitFenceX / 2 ) && bmpY > ( pwall->y - pwall->hitFenceY / 2 ) )
 					{
 						if( bmpX < ( pwall->x + pwall->hitFenceX / 2 ) && bmpY < ( pwall->y + pwall->hitFenceY / 2 ) )
@@ -39,7 +39,7 @@ void MousePoint::GetMouseClick( const Wall *pwall )
 							clickFlg = 0;
 							bmpX = 0;
 							bmpY = 0;
-							DrawFormatString( 700, 100, 0xff0000, "●" );
+							//DrawFormatString( 700, 100, 0xff0000, "●" );
 						}
 					}
 				}
@@ -57,12 +57,6 @@ void MousePoint::GetMouseClick( const Wall *pwall )
 		}
 	}
 
-	//ドラッグしてる時に
-	//if( clickFlg == 1 && ( ( ( OldMouseInput & MOUSE_INPUT_LEFT ) == MOUSE_INPUT_LEFT ) ) 
-	//	&& ( ( NowMouseInput & MOUSE_INPUT_LEFT ) != MOUSE_INPUT_LEFT ) )
-	//{
-	//}
-
 	//指を離した時
 	if( clickFlg == 1 && ( ( ( OldMouseInput & MOUSE_INPUT_LEFT ) == MOUSE_INPUT_LEFT )
 		&& ( ( NowMouseInput & MOUSE_INPUT_LEFT ) != MOUSE_INPUT_LEFT ) ) )
@@ -71,51 +65,16 @@ void MousePoint::GetMouseClick( const Wall *pwall )
 		clickFlg = 0;
 		killFlg = TRUE;
 
-		DrawFormatString( 700, 100, 0xff0000, "●" );
+		//DrawFormatString( 700, 100, 0xff0000, "●" );
 
 		if( mpX > ( pwall->x - pwall->hitFenceX / 2 ) && mpY > ( pwall->y - pwall->hitFenceY / 2 ) )
 		{
 			if( mpX < ( pwall->x + pwall->hitFenceX / 2 ) && mpY < ( pwall->y + pwall->hitFenceY / 2 ) )
 			{
-				DrawFormatString( 700, 100, 0xff0000, "●" );
+				//DrawFormatString( 700, 100, 0xff0000, "●" );
 				killFlg = FALSE;
 			}
 		}
-
-
-		//if( mpX > ( pwall->x - pwall->mhitWidth / 2 ) && mpY > ( pwall->y - pwall->mhitHeight / 2 ) )
-		//{
-		//	if( mpX < ( pwall->x + pwall->mhitWidth / 2 ) && mpY < ( pwall->y + pwall->mhitHeight / 2 ) )
-		//	{
-		//		killFlg = TRUE;
-		//		DrawFormatString( 700, 100, 0x0000ff, "●" );
-		//		if( mpX > ( pwall->x - pwall->hitFenceX / 2 ) && mpY > ( pwall->y - pwall->hitFenceY / 2 ) )
-		//		{
-		//			if( mpX < ( pwall->x + pwall->hitFenceX / 2 ) && mpY < ( pwall->y + pwall->hitFenceY / 2 ) )
-		//			{
-		//				DrawFormatString( 700, 100, 0xff0000, "●" );
-		//				killFlg = FALSE;
-		//				clickFlg = 0;
-		//			}
-		//		}
-		//	}
-		//	else
-		//	{
-		//		clickFlg = 0;
-		//		bmpX = 0;
-		//		bmpY = 0;
-		//		mpX = 0;
-		//		mpY = 0;
-		//	}
-		//}
-		//else
-		//{
-		//	clickFlg = 0;
-		//	bmpX = 0;
-		//	bmpY = 0;
-		//	mpX = 0;
-		//	mpY = 0;
-		//}
 	}
 
 	OldMouseInput = NowMouseInput;
@@ -124,7 +83,7 @@ void MousePoint::GetMouseClick( const Wall *pwall )
 
 void MousePoint::PrintMouseClick()
 {
-	DrawFormatString( 700, 100, 0xffffff, "%d,%d,%d,%d", bmpX, bmpY, mpX, mpY );
+	/*DrawFormatString( 700, 100, 0xffffff, "%d,%d,%d,%d", bmpX, bmpY, mpX, mpY );*/
 }
 
 bool MousePoint::CompCoor( int fC, int lC )

@@ -1,5 +1,5 @@
 #include "Source.h"
-#include "DxLib.h";
+#include "DxLib.h"
 #include "Result.h"
 
 /// /// <summary>
@@ -15,16 +15,16 @@ void ResultScene::DrawResult()
 	DrawFormatString(0, 0, 0xffffff,"%d, %d", mpX, mpY);
 	this->backButton.DrawButton();
 	
-	this->SceneBack();
+	if (backButton.ChackHit(this->mpX, this->mpY) == 1) {
+		DrawLine(420, 660, 610, 660, 0x000000);
+	}
 
 	if (CheckSoundMem(GameClearBGM) == 0) {
-		PlaySoundMem(GameClearBGM, DX_PLAYTYPE_NORMAL);
+		PlaySoundMem(GameClearBGM, DX_PLAYTYPE_BACK);
 	}
 
-	if (opt.Kflg & PAD_INPUT_M)
-	{
-		GAMESTATE = GAME_INIT;
-	}
+	this->SceneBack();
+
 }
 
 ResultScene::ResultScene()
@@ -57,6 +57,7 @@ void ResultScene::SceneBack()
 
 	if (mouse && MOUSE_INPUT_LEFT) {
 		if (backButton.ChackHit(mpX, mpY) == 1) {
+			StopSoundMem(GameClearBGM);
 			PlaySoundMem(click, DX_PLAYTYPE_BACK);
 			GAMESTATE = GAME_TITLE;
 		}

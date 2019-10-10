@@ -1,6 +1,8 @@
 #include "Source.h"
 #include "DrawTitle.h"
+#include "MousePoint.h"
 #include "DxLib.h"
+
 
 /// <summary>
 /// ƒ^ƒCƒgƒ‹‰æ–Ê‚ð•`‰æ‚µ‚Ü‚·
@@ -9,15 +11,29 @@ void TitleScene::DrawTitle()
 {
 	SetFontSize( _FONTSIZE_S );
 
+	
+	//DrawBox(512, 384, 560, 412, 0x000000, false);
+
 	GetMousePoint(&this->mpX, &this->mpY);
 
+	
 	LoadGraphScreen(0,0, "Assets/TitleImage.png", false);
+
+	if (startButton.ChackHit(this->mpX, this->mpY) == 1) {
+		DrawLine(407, 633, 655, 633, 0x000000);
+	}
+
+	if (endButton.ChackHit(this->mpX, this->mpY) == 1) {
+		DrawLine(444, 700, 633, 700, 0x000000);
+	}
+
 	this->startButton.DrawButton();
 	this->endButton.DrawButton();
 
 	if (CheckSoundMem(TitleBGM) == 0) {
 		PlaySoundMem(TitleBGM, DX_PLAYTYPE_BACK);
 	}
+
 
 	this->StartGame();
 	this->EndGame();
@@ -26,6 +42,7 @@ void TitleScene::DrawTitle()
 	{
 		GAMESTATE = GAME_INIT;
 	}
+	//DrawFormatString(0, 60, 0x000000, "%d,%d", mpX, mpY);
 }
 
 TitleScene::TitleScene()
@@ -46,7 +63,7 @@ void TitleScene::Init()
 	this->LoadSounds();
 	startButton.SetButtonPosition(530, 600);
 	endButton.SetButtonPosition(540, 670);
-	startButton.SetHitPos(395, 574, 610, 632);
+	startButton.SetHitPos(395, 574, 655, 633);
 	endButton.SetHitPos(433, 636, 642, 693);
 }
 

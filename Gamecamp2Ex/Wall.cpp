@@ -5,11 +5,11 @@
 //コンストラクタ
 Wall::Wall()
 {
-	x = 700 / 2;
-	y = -10;
+	x = 1024 / 2;
+	y = -30;
 	moveSpeed = 5;
 
-	mhitWidth = 700;
+	mhitWidth = 1024;
 	mhitHeight = 200;
 
 	hitFenceX = 700;
@@ -49,7 +49,10 @@ int Wall::ScreenOut()
 
 void Wall::WallDraw()
 {
-	DrawBox( x - ( hitFenceX / 2 ), y - ( hitFenceY / 2 ), x + ( hitFenceX / 2 ), y + ( hitFenceY / 2 ), 0xffffff, TRUE );
+	//DrawBox( x - ( hitFenceX / 2 ), y - ( hitFenceY / 2 ), x + ( hitFenceX / 2 ), y + ( hitFenceY / 2 ), 0xffffff, TRUE );
+	DrawRotaGraph( this->x / 2, this->y, 1.0f, 0, this->WallImage, TRUE );
+	DrawRotaGraph( this->x + ( this->x / 2 ), this->y, 1.0f, 0, this->WallImage, TRUE );
+	//DrawRotaGraph( 0, 0, 1.0f, 0, WallImage, TRUE );
 }
 
 void Wall::HitmouseRange()
@@ -145,6 +148,12 @@ bool Wall::RectAndLine( int right, int left, int top, int bottom, int x1, int y1
 	return false;
 }
 
+int Wall::LoadWallImages()
+{
+	if( ( WallImage = LoadGraph( "Assets/takewall.png" ) ) == -1 )	return -1;
+
+	return 0;
+}
 //int Wall::BreakWall( MousePoint mPoint )
 //{
 //

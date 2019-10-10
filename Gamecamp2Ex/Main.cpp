@@ -13,6 +13,7 @@ typedef struct FRAMERATE_CONTROL
 FRAMERATE_CONTROL FR_Control = { 0, 0, 0.0, 0 };	//フレームレート制御構造体宣言
 
 struct OPERATE opt;
+struct SOUND sound;
 //struct PICTURE pic;
 
 Wall *pwall;
@@ -20,6 +21,7 @@ MousePoint mPoint;
 TitleScene title;
 Player player;
 Enemy enemy;
+ResultScene result;
 
 int GAMESTATE;
 
@@ -33,6 +35,8 @@ static void FR_Wait();
 
 void GameInit();
 void GameMain();
+
+int LoadSounds();
 
 //int MouseState();
 
@@ -48,7 +52,9 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	if( DxLib_Init() == -1 )	return -1;
 
 	title.Init();
+	result.Init();
 
+	if( ( LoadSounds() == -1 ) )		return -1;
 	if( ( enemy.LoadImages() == -1 ) )	return -1;
 	if( ( player.LoadPlayerPic() == -1 ) )	return -1;
 
@@ -73,7 +79,12 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 				GameMain();
 				break;
 
+			case GAME_WIN:
+				result.DrawResult();
+				break;
+
 			case GAME_END:
+				GAMESTATE = 99;
 				break;
 		}
 
@@ -136,14 +147,29 @@ void GameInit()
 
 void GameMain()
 {
+	if( CheckSoundMem( sound.mainBGM ) == 0 )
+	{
+		PlaySoundMem( sound.mainBGM, DX_PLAYTYPE_BACK );
+	}
 
 	//mPoint.PrintMouseClick();
-	enemy.BackScrool( player.WaitTimer );
-	DrawStage();
-	DrawUI();
+	enemy.BackScrool( player.playerLife, player.WaitTimer );
+	//DrawStage();
 	DrawWall();
-	enemy.DrawEnemy();
 	player.DrawPlayer();
+	enemy.DrawEnemy();
+	DrawUI( player.GoalDist );
+	
+
+	if( player.GoalDist++ >= 2400 )
+	{
+		mPoint.mpInit();
+		enemy.eInit();
+		player.pInit();
+		GAMESTATE = GAME_WIN;
+
+	}
+
 	if( mPoint.killFlg == FALSE )
 	{
 		mPoint.GetMouseClick( pwall );
@@ -152,11 +178,17 @@ void GameMain()
 	if( mPoint.wallFlg == 1 && player.playerFlg == 0 )
 	{
 		player.HitPlayer( pwall );
+		if( player.playerFlg == 1 )
+		{
+			PlaySoundMem( sound.collision, DX_PLAYTYPE_BACK );
+			delete pwall;
+			mPoint.i = 0;
+		}
 	}
 
 	if( player.playerFlg == 1 )
 	{
-		player.DangerTime( &enemy, pwall );
+		player.DangerTime( &enemy, pwall, sound.collision );
 	}
 
 	if( player.pKillFlg == 2 )
@@ -168,10 +200,10 @@ void GameMain()
 		GAMESTATE = GAME_TITLE;
 	}
 
-	DrawFormatString( 700, 130, 0x000000, "%d, %d", mPoint.bmpX, mPoint.bmpY );
-	DrawFormatString( 700, 160, 0x000000, "%d, %d", mPoint.mpX, mPoint.mpY );
-	DrawFormatString( 700, 190, 0x000000, "%d", mPoint.clickFlg );
-	DrawFormatString( 700, 220, 0x000000, "%d", player.playerLife );
+	//DrawFormatString( 700, 130, 0x000000, "%d, %d", mPoint.bmpX, mPoint.bmpY );
+	//DrawFormatString( 700, 160, 0x000000, "%d, %d", mPoint.mpX, mPoint.mpY );
+	//DrawFormatString( 700, 190, 0x000000, "%d", mPoint.clickFlg );
+	//DrawFormatString( 700, 220, 0x000000, "%d", player.playerLife );
 }
 
 void DrawWall()
@@ -184,19 +216,20 @@ void DrawWall()
 		pwall = new Wall;
 		mPoint.i = -1;
 		mPoint.wallFlg = 1;
+		if( pwall->LoadWallImages() == -1 )	GAMESTATE = GAME_END;
 	}
 
 	//壁を描画する時間
 
 	if( mPoint.i == -1 )
 	{
-		pwall->HitmouseRange();
-		if( player.WaitTimer == 0 || player.WaitTimer >= 160 ) {
+		//pwall->HitmouseRange();
+		if( player.playerLife != 0 && ( player.WaitTimer == 0 || player.WaitTimer >= 160 ) ) {
 			pwall->MoveWall();
 		}
 		pwall->WallDraw();
 
-		DrawFormatString( 700, 250, 0x000000, "%d",  pwall->WallState );
+		//DrawFormatString( 700, 250, 0x000000, "%d",  pwall->WallState );
 
 		if( pwall->ScreenOut() == 1 )
 		{
@@ -218,35 +251,52 @@ void DrawWall()
 			{
 				if( mPoint.bmpY > ( pwall->y + pwall->hitFenceY ) )
 				{
-					delete pwall;
-					mPoint.bmpX = 0;
-					mPoint.bmpY = 0;
-					mPoint.mpX = 0;
-					mPoint.mpY = 0;
-					mPoint.clickFlg = 0;
-					mPoint.i = 0;
-					//mPoint.killFlg = FALSE;
-					mPoint.wallFlg = 0;
-					pwall->WallState = 0;
+					if( mPoint.mpY < ( pwall->y - pwall->hitFenceY ) )
+					{
+						PlaySoundMem( sound.swordAttack, DX_PLAYTYPE_BACK );
+						delete pwall;
+						mPoint.bmpX = 0;
+						mPoint.bmpY = 0;
+						mPoint.mpX = 0;
+						mPoint.mpY = 0;
+						mPoint.clickFlg = 0;
+						mPoint.i = 0;
+						//mPoint.killFlg = FALSE;
+						mPoint.wallFlg = 0;
+						pwall->WallState = 0;
+					}
 				}
 			}
 			else if( mPoint.CompCoor( mPoint.bmpY, mPoint.mpY ) == FALSE )
 			{
 				if( mPoint.mpY > ( pwall->y + pwall->hitFenceY ) )
 				{
-					delete pwall;
-					mPoint.bmpX = 0;
-					mPoint.bmpY = 0;
-					mPoint.mpX = 0;
-					mPoint.mpY = 0;
-					mPoint.clickFlg = 0;
-					mPoint.i = 0;
-					//mPoint.killFlg = FALSE;
-					mPoint.wallFlg = 0;
-					pwall->WallState = 0;
+					if( mPoint.bmpY < ( pwall->y - pwall->hitFenceY ) ) {
+						PlaySoundMem( sound.swordAttack, DX_PLAYTYPE_BACK );
+						delete pwall;
+						mPoint.bmpX = 0;
+						mPoint.bmpY = 0;
+						mPoint.mpX = 0;
+						mPoint.mpY = 0;
+						mPoint.clickFlg = 0;
+						mPoint.i = 0;
+						//mPoint.killFlg = FALSE;
+						mPoint.wallFlg = 0;
+						pwall->WallState = 0;
+					}
 				}
 			}
 			mPoint.killFlg = FALSE;
 		}
 	}
+}
+
+int LoadSounds()
+{
+
+	if ( ( sound.mainBGM = LoadSoundMem( "Assets/sounds/mainBGM.mp3" ) ) == -1 )		return -1;
+	if( ( sound.swordAttack = LoadSoundMem( "Assets/sounds/swordAttack.mp3" ) ) == -1 )	return -1;
+	if( ( sound.collision = LoadSoundMem( "Assets/sounds/col.mp3" ) ) == -1 )	return -1;
+
+	return 0;
 }

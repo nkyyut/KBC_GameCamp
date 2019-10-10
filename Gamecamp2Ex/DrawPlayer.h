@@ -16,9 +16,10 @@ public:
 	int dtimeFrame = 0;
 	void DrawPlayer();
 	void HitPlayer( Wall *pwall );
-	void DangerTime(Enemy* enemy, Wall *pwall );
+	void DangerTime( Enemy* enemy, Wall *pwall, int colsound );
 	Player();
 	int playerLife;
+	int GoalDist = 0;
 
 	int playerPic;
 	int LoadPlayerPic();
@@ -26,13 +27,14 @@ public:
 
 	void pInit()
 	{
-		playerX = 300;
+		playerX = 1024 / 2;
 		playerY = 568;
 		playerFlg = 0;
 		WaitTimer = 0;
 		playerLife = 2;
 		pKillFlg = 0;
 		dtimeFrame = 0;
+		GoalDist = 0;
 	}
 
 };
