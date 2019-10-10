@@ -7,4 +7,5 @@
 #include "MousePoint.h"
 #include "DrawEnemy.h"
 #include "DrawPlayer.h"
+#include "Result.h"
 //#include "DrawEnemy.h"
