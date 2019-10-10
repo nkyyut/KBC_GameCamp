@@ -2,41 +2,43 @@
 #include "Source.h"
 #include "Wall.h"
 #include "DrawPlayer.h"
+#include "DrawEnemy.h"
 
 Player::Player()
 {
 	 playerX = 300;
 	 playerY = 568;
 	 playerLife = 2;
-	 playerHit;
+	 playerFlg = 0;
 }
 
 
 void Player::DrawPlayer()
 {
-	DrawBox(playerX, playerY, 400, 400, 0xffff00, TRUE);
+	DrawBox(playerX, playerY, 400, 400, 0xff0000, TRUE);
+	DrawCircle(300, 568, 3, 0xff00ff, 1);
 
 
 }
 
-// 壁に当たるとデンジャータイムが発生
-void Player::DangerTime( Wall *pwall ){
-	if ( ( pwall->x + ( pwall->hitFenceY / 2 ) ) >= playerY ) {
-		if (++WaitTimer < 300)
-		{
-			playerLife--;	
-			//enemywork++		←仮	※ここでエネミーが画面上に出てくる処理
-			if ((pwall->x + (pwall->hitFenceY / 2)) >= playerY)
-			{
-				playerLife--;
-				//if (playerLife == 0) GAMESTATE = GAME_LOSE;
-			}
-		}/*enemywork--;*/
+void Player::HitPlayer( Wall *pwall ) {
 
-
+	if ((pwall->y + (pwall->hitFenceY / 2)) >= playerY)
+	{
+		playerLife--;
+		playerFlg = 1;
+		if (playerLife == 0) GAMESTATE = GAME_LOSE;
 	}
 
+}
 
+// 壁に当たるとデンジャータイムが発生
+void Player::DangerTime(Enemy* enemy, Wall *pwall) {
+	if (++WaitTimer < 300)
+	{
+		//playerLife--;	
+		enemy->up(playerLife);
+	}
 }
 
 
