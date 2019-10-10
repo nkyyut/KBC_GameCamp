@@ -10,9 +10,9 @@ void Enemy::DrawEnemy()
 	DrawBox(x,y,x+50,y+50,0xffffff,true);
 }
 
-void Enemy::BackScrool()
+void Enemy::BackScrool( int waittime )
 {
-	if( animFrame == 0 || animFrame >= 160 )
+	if( waittime == 0 || waittime >= 160 )
 	{
 		ScroolSpeed += 4;
 	}
@@ -38,29 +38,32 @@ int Enemy::LoadImages()
 	return 0;
 }
 
-void Enemy::up(int hp)
+void Enemy::up( int hp, int *pkillflg, int waittime )
 {
 	if (hp == 1)
 	{
-		if ( animFrame++ < 100 )
+		if ( waittime < 50 )
 		{	
 			y -= 2;
 		}
-		else if( animFrame >= 160 && animFrame < 260 )
+		else if( waittime >= 1000 )
 		{
-			y += 2;
+			y += 1;
 		}
-		else if( animFrame >= 260 )
+		//else if( animFrame >= 260 )
+		//{
+		//	animFrame = 0;
+		//}
+	}
+
+	if ( hp == 0 ) {
+		if( y > 384 ){
+			y -= 2;
+		}
+		else if( y <= 384 )
 		{
-			animFrame = 0;
+			*pkillflg = 2;
 		}
 	}
 
-	if (hp == 0) {
-		
-		if(y>=384){
-			y -= 2;
-		}
-		
-	}
 }

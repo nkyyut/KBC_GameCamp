@@ -136,9 +136,9 @@ void GameInit()
 
 void GameMain()
 {
-	
+
 	//mPoint.PrintMouseClick();
-	enemy.BackScrool();
+	enemy.BackScrool( player.WaitTimer );
 	DrawStage();
 	DrawUI();
 	DrawWall();
@@ -159,45 +159,44 @@ void GameMain()
 		player.DangerTime( &enemy, pwall );
 	}
 
+	if( player.pKillFlg == 2 )
+	{
+		delete pwall;
+		mPoint.mpInit();
+		enemy.eInit();
+		player.pInit();
+		GAMESTATE = GAME_TITLE;
+	}
+
 	DrawFormatString( 700, 130, 0x000000, "%d, %d", mPoint.bmpX, mPoint.bmpY );
 	DrawFormatString( 700, 160, 0x000000, "%d, %d", mPoint.mpX, mPoint.mpY );
 	DrawFormatString( 700, 190, 0x000000, "%d", mPoint.clickFlg );
-	DrawFormatString( 700, 220, 0x000000, "%d", mPoint.killFlg );
+	DrawFormatString( 700, 220, 0x000000, "%d", player.playerLife );
 }
-
-//int MouseState()
-//{
-//	int beforemouseInput = 0;
-//	int nowmouseInput = GetMouseInput();
-//
-//	if( beforemouseInput & MOUSE_INPUT_LEFT ) 
-//	{
-//		//左クリック
-//		return 1;
-//	}
-//
-//	return 0;
-//}
 
 void DrawWall()
 {
-	static int i = 0;
+	//static int i = 0;
 
 	//壁出現までの待機時間
-	if( i != -1 &&  i++ > 60 )
+	if( mPoint.i != -1 &&  mPoint.i++ > 60 )
 	{
 		pwall = new Wall;
-		i = -1;
+		mPoint.i = -1;
 		mPoint.wallFlg = 1;
 	}
 
 	//壁を描画する時間
 
-	if( i == -1 )
+	if( mPoint.i == -1 )
 	{
 		pwall->HitmouseRange();
-		pwall->MoveWall();
+		if( player.WaitTimer == 0 || player.WaitTimer >= 160 ) {
+			pwall->MoveWall();
+		}
 		pwall->WallDraw();
+
+		DrawFormatString( 700, 250, 0x000000, "%d",  pwall->WallState );
 
 		if( pwall->ScreenOut() == 1 )
 		{
@@ -207,9 +206,10 @@ void DrawWall()
 			mPoint.mpX = 0;
 			mPoint.mpY = 0;
 			mPoint.clickFlg = 0;
-			i = 0;
+			mPoint.i = 0;
 			mPoint.killFlg = FALSE;
 			mPoint.wallFlg = 0;
+			pwall->WallState = 0;
 		}
 
 		if( mPoint.killFlg == TRUE )
@@ -224,9 +224,10 @@ void DrawWall()
 					mPoint.mpX = 0;
 					mPoint.mpY = 0;
 					mPoint.clickFlg = 0;
-					i = 0;
+					mPoint.i = 0;
 					//mPoint.killFlg = FALSE;
 					mPoint.wallFlg = 0;
+					pwall->WallState = 0;
 				}
 			}
 			else if( mPoint.CompCoor( mPoint.bmpY, mPoint.mpY ) == FALSE )
@@ -239,35 +240,13 @@ void DrawWall()
 					mPoint.mpX = 0;
 					mPoint.mpY = 0;
 					mPoint.clickFlg = 0;
-					i = 0;
+					mPoint.i = 0;
 					//mPoint.killFlg = FALSE;
 					mPoint.wallFlg = 0;
+					pwall->WallState = 0;
 				}
 			}
 			mPoint.killFlg = FALSE;
-			//if( pwall->RectAndLine(
-			//	pwall->x + pwall->hitFenceX / 2, pwall->x - pwall->hitFenceX / 2,
-			//	pwall->y - pwall->hitFenceY / 2, pwall->y + pwall->hitFenceY / 2,
-			//	mPoint.bmpX, mPoint.bmpY, mPoint.mpX, mPoint.mpY ) == TRUE )
-			//{
-			//	DrawFormatString( 700, 250, 0x000000, "●" );
-			//	delete pwall;
-			//	mPoint.bmpX = 0;
-			//	mPoint.bmpY = 0;
-			//	mPoint.mpX = 0;
-			//	mPoint.mpY = 0;
-			//	mPoint.clickFlg = 0;
-			//	i = 0;
-			//	mPoint.killFlg = FALSE;
-			//}
-			//delete pwall;
-			//mPoint.bmpX = 0;
-			//mPoint.bmpY = 0;
-			//mPoint.mpX = 0;
-			//mPoint.mpY = 0;
-			//mPoint.clickFlg = 0;
-			//i = 0;
-			//mPoint.killFlg = FALSE;
 		}
 	}
 }

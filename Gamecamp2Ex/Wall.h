@@ -16,7 +16,7 @@ class Wall
 		bool LineAndLine( int A1x, int A1y, int A2x, int A2y, int B1x, int B1y, int B2x, int B2y );
 		bool RectAndLine( int right, int left, int top, int bottom, int x1, int y1, int x2, int y2 );
 
-		int WallState;	//柵とか石の壁作るんだったら必要かなと
+		int WallState;	//当たったか当たってないか
 
 	//private :
 		int x;				//迫りくる壁中心点X
