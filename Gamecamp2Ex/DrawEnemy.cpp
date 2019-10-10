@@ -11,9 +11,9 @@ void Enemy::DrawEnemy()
 	DrawRotaGraph( this->x, this->y, 0.7f, 0, this->EnemyPic, TRUE );
 }
 
-void Enemy::BackScrool( int waittime )
+void Enemy::BackScrool( int plife, int waittime )
 {
-	if( waittime == 0 || waittime >= 160 )
+	if( plife != 0 && ( waittime == 0 || waittime >= 160 ) )
 	{
 		ScroolSpeed += 4;
 	}
@@ -44,7 +44,7 @@ void Enemy::up( int hp, int *pkillflg, int waittime )
 {
 	if (hp == 1)
 	{
-		if ( waittime >= 120 && waittime < 160 )
+		if ( waittime >= 120 && waittime < 170 )
 		{	
 			y -= 2;
 		}
@@ -59,10 +59,10 @@ void Enemy::up( int hp, int *pkillflg, int waittime )
 	}
 
 	if ( hp == 0 ) {
-		if( y > 384 ){
+		if( y > 500 ){
 			y -= 2;
 		}
-		else if( y <= 384 )
+		else if( y <= 500 )
 		{
 			*pkillflg = 2;
 		}

@@ -6,7 +6,7 @@
 Wall::Wall()
 {
 	x = 1024 / 2;
-	y = -20;
+	y = -30;
 	moveSpeed = 5;
 
 	mhitWidth = 1024;

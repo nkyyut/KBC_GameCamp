@@ -1,5 +1,5 @@
 #include "Source.h"
-#include "DxLib.h";
+#include "DxLib.h"
 #include "Result.h"
 
 /// /// <summary>
