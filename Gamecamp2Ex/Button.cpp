@@ -6,18 +6,37 @@
 /// </summary>
 /// <param name="x">X座標</param>
 /// <param name="y">Y座標</param>
-void Button::SetButtonPosition(int x, int y)
+void Button::SetButtonPosition( int x, int y )
 {
 	this->bpX = x;
 	this->bpY = y;
 }
 
-void Button::DrawButton() 
+void Button::DrawButton()
 {
-	DrawRotaGraph(this->bpX, this->bpY, 0.5, 0.0, this->image, TRUE, FALSE);
+	DrawRotaGraph( this->bpX, this->bpY, 0.5, 0.0, this->image, TRUE, FALSE );
 }
 
-void Button::SetHitPos(int x, int y, int x2, int y2)
+int Button::reuse( int oldk, int nowk )
+{
+	if( rePush == 0 )
+	{
+		OldMouse = oldk;
+		NowMouse = nowk;
+		rePush = 1;
+	}
+
+	if( rePush == 1 && ( ( ( OldMouse & MOUSE_INPUT_LEFT ) == MOUSE_INPUT_LEFT )
+						 && ( ( NowMouse & MOUSE_INPUT_LEFT ) != MOUSE_INPUT_LEFT ) ) )
+	{
+		return true;
+	}
+
+	return false;
+
+}
+
+void Button::SetHitPos( int x, int y, int x2, int y2 )
 {
 	this->HitPosX = x;
 	this->HitPosX2 = x2;
@@ -32,10 +51,12 @@ void Button::SetHitPos(int x, int y, int x2, int y2)
 /// <param name="x">マウス側のX座標</param>
 /// <param name="y">マウス側のY座標</param>
 /// <returns>判定が通る = 1、判定が通らない = 0</returns>
-int Button::ChackHit(int x, int y)
+int Button::ChackHit( int x, int y )
 {
-	if (x > this->HitPosX && y > this->HitPosY){
-		if (x < this->HitPosX2 && y < this->HitPosY2) {
+	if( x > this->HitPosX && y > this->HitPosY )
+	{
+		if( x < this->HitPosX2 && y < this->HitPosY2 )
+		{
 			return 1;
 		}
 	}
