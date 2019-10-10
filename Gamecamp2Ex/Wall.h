@@ -18,6 +18,9 @@ class Wall
 
 		int WallState;	//当たったか当たってないか
 
+		int LoadWallImages();
+		int WallImage;
+
 	//private :
 		int x;				//迫りくる壁中心点X
 		int y;				//迫りくる壁中心点Y

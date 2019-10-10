@@ -20,6 +20,7 @@ MousePoint mPoint;
 TitleScene title;
 Player player;
 Enemy enemy;
+ResultScene result;
 
 int GAMESTATE;
 
@@ -48,6 +49,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	if( DxLib_Init() == -1 )	return -1;
 
 	title.Init();
+	result.Init();
 
 	if( ( enemy.LoadImages() == -1 ) )	return -1;
 	if( ( player.LoadPlayerPic() == -1 ) )	return -1;
@@ -73,7 +75,12 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 				GameMain();
 				break;
 
+			case GAME_WIN:
+				result.DrawResult();
+				break;
+
 			case GAME_END:
+				GAMESTATE = 99;
 				break;
 		}
 
@@ -139,11 +146,21 @@ void GameMain()
 
 	//mPoint.PrintMouseClick();
 	enemy.BackScrool( player.WaitTimer );
-	DrawStage();
-	DrawUI();
-	DrawWall();
+	//DrawStage();
+	DrawUI( player.GoalDist );
 	enemy.DrawEnemy();
 	player.DrawPlayer();
+	
+
+	if( player.GoalDist++ >= 2400 )
+	{
+		mPoint.mpInit();
+		enemy.eInit();
+		player.pInit();
+		GAMESTATE = GAME_WIN;
+
+	}
+
 	if( mPoint.killFlg == FALSE )
 	{
 		mPoint.GetMouseClick( pwall );
@@ -168,6 +185,8 @@ void GameMain()
 		GAMESTATE = GAME_TITLE;
 	}
 
+	DrawWall();
+
 	DrawFormatString( 700, 130, 0x000000, "%d, %d", mPoint.bmpX, mPoint.bmpY );
 	DrawFormatString( 700, 160, 0x000000, "%d, %d", mPoint.mpX, mPoint.mpY );
 	DrawFormatString( 700, 190, 0x000000, "%d", mPoint.clickFlg );
@@ -184,13 +203,14 @@ void DrawWall()
 		pwall = new Wall;
 		mPoint.i = -1;
 		mPoint.wallFlg = 1;
+		if( pwall->LoadWallImages() == -1 )	GAMESTATE = GAME_END;
 	}
 
 	//•Ç‚ð•`‰æ‚·‚éŽžŠÔ
 
 	if( mPoint.i == -1 )
 	{
-		pwall->HitmouseRange();
+		//pwall->HitmouseRange();
 		if( player.WaitTimer == 0 || player.WaitTimer >= 160 ) {
 			pwall->MoveWall();
 		}
