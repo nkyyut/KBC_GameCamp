@@ -47,3 +47,12 @@ struct PICTRUE
 	int Gage;
 };
 extern struct PICTURE pic;
+
+struct SOUND
+{
+	int mainBGM;
+	int swordAttack;
+	int collision;
+};
+
+extern struct SOUND sound;
