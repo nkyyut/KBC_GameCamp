@@ -3,10 +3,17 @@
 
 #include "DxLib.h"
 
-extern void DrawEnemy();
-extern void BackScrool();
+class Enemy {
+public:
+	void DrawEnemy();
+	void BackScrool();
+	int LoadImages();
+	void up(int hp);
+private:
+	int ScroolSpeed;
+	int BackScreen;
+	int EnemyLife;
+	int x=512, y=768;
 
-int ScroolSpeed;
-int BackScreen;
-
+};
 #endif
